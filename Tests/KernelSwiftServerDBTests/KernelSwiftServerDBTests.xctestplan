@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "1D23EB25-9919-4B3E-AA39-AF1C0BDE0040",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "KernelSwiftServerDBTests",
+        "name" : "KernelSwiftServerDBTests"
+      }
+    }
+  ],
+  "version" : 1
+}

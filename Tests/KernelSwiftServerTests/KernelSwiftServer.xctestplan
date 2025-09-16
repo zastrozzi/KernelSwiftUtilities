@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "5FCF0405-F1D9-48E6-A3CA-29021FBE12D6",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "mainThreadCheckerEnabled" : false
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "KernelSwiftServerTests",
+        "name" : "KernelSwiftServerTests"
+      }
+    }
+  ],
+  "version" : 1
+}

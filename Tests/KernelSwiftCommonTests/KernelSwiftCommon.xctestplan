@@ -1,0 +1,72 @@
+{
+  "configurations" : [
+    {
+      "id" : "49B456CC-3F48-4E8F-93FF-C2A6CFE5B53E",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "mainThreadCheckerEnabled" : false
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "BigIntAdditiveArithmeticTests"
+          },
+          {
+            "name" : "RGBAColorTests"
+          },
+          {
+            "name" : "TaggedMemoryCacheTests"
+          }
+        ],
+        "xctestClasses" : [
+          {
+            "name" : "BigIntBinaryOperationsTest"
+          },
+          {
+            "name" : "BigIntBurnikelZieglerTest"
+          },
+          {
+            "name" : "BigIntComparableTest"
+          },
+          {
+            "name" : "BigIntDoubleWordsTest"
+          },
+          {
+            "name" : "BigIntModularArithmeticTest"
+          },
+          {
+            "name" : "BigIntPrimeTest"
+          },
+          {
+            "name" : "BigIntScalingArithmeticTest"
+          },
+          {
+            "name" : "BigUIntTests"
+          },
+          {
+            "name" : "ECDomainTests"
+          },
+          {
+            "name" : "Float16Tests"
+          },
+          {
+            "name" : "UnsignedIntegerTests"
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "KernelSwiftCommonTests",
+        "name" : "KernelSwiftCommonTests"
+      }
+    }
+  ],
+  "version" : 2
+}

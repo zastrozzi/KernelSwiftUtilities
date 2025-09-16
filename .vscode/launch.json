@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Debug KSUCryptoX509DemoServer",
+            "program": "${workspaceFolder:KernelSwiftUtilities}/.build/debug/KSUCryptoX509DemoServer",
+            "args": [],
+            "cwd": "${workspaceFolder:KernelSwiftUtilities}",
+            "preLaunchTask": "swift: Build Debug KSUCryptoX509DemoServer"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Release KSUCryptoX509DemoServer",
+            "program": "${workspaceFolder:KernelSwiftUtilities}/.build/release/KSUCryptoX509DemoServer",
+            "args": [],
+            "cwd": "${workspaceFolder:KernelSwiftUtilities}",
+            "preLaunchTask": "swift: Build Release KSUCryptoX509DemoServer"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:KernelSwiftUtilities}",
+            "name": "Debug KernelOpenAPITester",
+            "program": "${workspaceFolder:KernelSwiftUtilities}/.build/debug/KernelOpenAPITester",
+            "preLaunchTask": "swift: Build Debug KernelOpenAPITester"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:KernelSwiftUtilities}",
+            "name": "Release KernelOpenAPITester",
+            "program": "${workspaceFolder:KernelSwiftUtilities}/.build/release/KernelOpenAPITester",
+            "preLaunchTask": "swift: Build Release KernelOpenAPITester"
+        }
+    ]
+}

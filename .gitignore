@@ -1,0 +1,12 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/
+Package.resolved
+!**/*.xcworkspace/xcshareddata/swiftpm/Package.resolved
+/**/*.key
+/**/*.crt
+/**/*.pem

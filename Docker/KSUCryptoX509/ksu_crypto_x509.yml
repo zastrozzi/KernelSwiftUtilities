@@ -1,0 +1,45 @@
+version: '3.9'
+
+volumes:
+    db_data:
+
+services:
+    ksu_crypto_x509_server:
+        image: ksu-crypto-x509-server:latest
+        build:
+            context: ../../
+            dockerfile: Docker/KSUCryptoX509/server/Dockerfile_ksu_crypto_x509_server
+        depends_on:
+            - ksu_crypto_x509_db
+        ports:
+            - '8080'
+        environment:
+            DATABASE_HOST: ksu_crypto_x509_db
+            LOG_LEVEL: ${LOG_LEVEL:-info}
+        command: ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+    ksu_crypto_x509_db:
+        image: ksu-crypto-x509-db:latest
+        build:
+            context: ../../
+            dockerfile: Docker/KSUCryptoX509/db/Dockerfile_ksu_crypto_x509_db
+        environment:
+            PGDATA: /var/lib/postgresql/data/pgdata
+            CERTDIR: /var/lib/postgresql/data/certs
+            POSTGRES_USER: postgresdb
+            POSTGRES_PASSWORD: postgresdb
+            POSTGRES_DB: ksu_crypto_x509
+        ports:
+            - '5432'
+        volumes:
+            - db_data:/var/lib/postgresql/data/pgdata
+    ksu_ngrok:
+        image: ngrok/ngrok:latest
+        command:
+            - "start"
+            - "--all"
+            - "--config"
+            - "/etc/ngrok.yml"
+        volumes:
+            - ./ngrok/ngrok.yml:/etc/ngrok.yml
+        ports:
+            - '4040'

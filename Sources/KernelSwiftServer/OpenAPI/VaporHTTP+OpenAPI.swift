@@ -1,0 +1,45 @@
+//
+//  File.swift
+//  
+//
+//  Created by Jonathan Forbes on 04/04/2022.
+//
+
+import Foundation
+import Vapor
+import OpenAPIKit30
+
+extension HTTPMethod {
+    internal func openAPIVerb() throws -> OpenAPI.HttpMethod {
+        switch self {
+        case .GET:
+            return .get
+        case .PUT:
+            return .put
+        case .POST:
+            return .post
+        case .DELETE:
+            return .delete
+        case .OPTIONS:
+            return .options
+        case .HEAD:
+            return .head
+        case .PATCH:
+            return .patch
+        case .TRACE:
+            return .trace
+        default:
+            throw OpenAPIHTTPMethodError.unsupportedHttpMethod(String(describing: self))
+        }
+    }
+
+    enum OpenAPIHTTPMethodError: Swift.Error {
+        case unsupportedHttpMethod(String)
+    }
+}
+
+extension HTTPMediaType {
+    public var openAPIContentType: OpenAPI.ContentType? {
+        return OpenAPI.ContentType(rawValue: "\(self.type)/\(self.subType)")
+    }
+}

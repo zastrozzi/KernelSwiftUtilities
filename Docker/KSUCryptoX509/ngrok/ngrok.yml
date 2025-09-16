@@ -1,0 +1,12 @@
+version: "2"
+authtoken: 1lNVpHIa9HSrIWlxYSMpzYRyj3h_4aCrpPQFWmE1XWVyjRa5x
+console_ui: false
+console_ui_color: transparent
+region: us
+tunnels:
+    ksu_crypto_x509:
+        addr: https://ksu_crypto_x509_server:8080
+        schemes:
+            - https
+        proto: http
+        domain: bankkernel.ngrok.io

@@ -1,0 +1,19 @@
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "boundary_line_ceremonial_counties" -nln "k_loc"."uk_os_bdline_cc" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "boundary_line_historic_counties" -nln "k_loc"."uk_os_bdline_hc" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "community_ward" -nln "k_loc"."uk_os_bdline_cw" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "country_region" -nln "k_loc"."uk_os_bdline_cr" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "county" -nln "k_loc"."uk_os_bdline_c" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "county_electoral_division" -nln "k_loc"."uk_os_bdline_ced" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "district_borough_unitary" -nln "k_loc"."uk_os_bdline_dbu" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "district_borough_unitary_ward" -nln "k_loc"."uk_os_bdline_dbuw" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "english_region" -nln "k_loc"."uk_os_bdline_er" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "greater_london_const" -nln "k_loc"."uk_os_bdline_glc" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "high_water" -nln "k_loc"."uk_os_bdline_hw" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "historic_european_region" -nln "k_loc"."uk_os_bdline_her" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "parish" -nln "k_loc"."uk_os_bdline_p" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "polling_districts_england" -nln "k_loc"."uk_os_bdline_pde" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "scotland_and_wales_const" -nln "k_loc"."uk_os_bdline_swc" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "scotland_and_wales_region" -nln "k_loc"."uk_os_bdline_swr" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "unitary_electoral_division" -nln "k_loc"."uk_os_bdline_ued" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" bdline_gb.gpkg "westminster_const" -nln "k_loc"."uk_os_bdline_wc" && \
+ogr2ogr -f PostgreSQL "PG:user=postgresdb password=postgresdb dbname=p87_automation" codepo_gb.gpkg "codepoint" -nln "k_loc"."uk_os_code_point"

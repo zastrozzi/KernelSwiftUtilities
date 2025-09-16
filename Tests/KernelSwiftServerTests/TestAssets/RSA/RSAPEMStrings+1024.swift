@@ -1,0 +1,68 @@
+//
+//  File.swift
+//  
+//
+//  Created by Jonathan Forbes on 24/10/2023.
+//
+
+import Foundation
+
+extension RSAPEMStrings {
+    public static let pkcs1PublicKey1024: String =
+"""
+-----BEGIN RSA PUBLIC KEY-----
+MIGJAoGBAJcsTU5ssrCOpEZFljobmJN+1lBthB1Of3+Yesmz+z+B8lhro8XUNLkd
+Ar5K3AtHp4apGbK0Z+rGlN9NEtkCx5xofBiZGmEs/vqlmgLLRwM/8trjT7zi01ak
+Mzq2P0fWBq29EDv8nKeF4H52c/JoDmT/LrfXSXXUxqcNQ851/4ndAgMBAAE=
+-----END RSA PUBLIC KEY-----
+"""
+    
+    public static let pkcs1PrivateKey1024: String =
+"""
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQCXLE1ObLKwjqRGRZY6G5iTftZQbYQdTn9/mHrJs/s/gfJYa6PF
+1DS5HQK+StwLR6eGqRmytGfqxpTfTRLZAsecaHwYmRphLP76pZoCy0cDP/La40+8
+4tNWpDM6tj9H1gatvRA7/JynheB+dnPyaA5k/y6310l11ManDUPOdf+J3QIDAQAB
+AoGBAI0NJBCBsXS1kyeSNCqBpyowFY2zsaqanLIUNrVOvqYx/EpuHMAwUQVLwUyG
+kqvfrrshur2YQMG5ihyUUHq1ckLYxVCUM4/wy5DPzUn7iutuP/emenYqwgdyrUql
+22ANnS2D/S99Nxx14fMiHcU44kqCy8WZLuTCF5cLSIS4StXNAkEA0/Jgm3+/cFEW
+OBAMlqPuNOCJS0wv6vjsV5i7FhNz6XcfgOzjwSDrrwc1l+YuO7b6RVT4rUy0JlTt
+mc80GguJQwJBALaYLFf/jQQ9uJKjo29kBnteUh6TYzcgho4cVk77fr/3GpUQjbz/
+mN6Wf1btsKcs30Clawc4eie74iglfaHbXl8CQQCQ5+rDBdFWMio1xEtHBudKwaU8
+lOdCCFRWA3cNvdkG6sngNJX2qdJZRV2P7/D2JMDxfAnVOlcEyhX0jeS6Vd7PAkEA
+oxMnT3RR2j7RcE2rcpmP3HCxwNL7YkmvQo52WtXsLsAfQpBlNi3Ets8MbXOdOMEv
+ponWG73KA2CerCJHoN3N2wJALSd8mf8nkVVglBguO5yGugWABc60wDN+ypsQJkyZ
+fs/V2IvKAR8ovKbkN6/zAVSWXYSYQdu5NQtVZW0AqowvKQ==
+-----END RSA PRIVATE KEY-----
+"""
+    
+    public static let pkcs8PublicKey1024: String =
+"""
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCXLE1ObLKwjqRGRZY6G5iTftZQ
+bYQdTn9/mHrJs/s/gfJYa6PF1DS5HQK+StwLR6eGqRmytGfqxpTfTRLZAsecaHwY
+mRphLP76pZoCy0cDP/La40+84tNWpDM6tj9H1gatvRA7/JynheB+dnPyaA5k/y63
+10l11ManDUPOdf+J3QIDAQAB
+-----END PUBLIC KEY-----
+"""
+    
+    public static let pkcs8PrivateKey1024: String =
+"""
+-----BEGIN PRIVATE KEY-----
+MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAJcsTU5ssrCOpEZF
+ljobmJN+1lBthB1Of3+Yesmz+z+B8lhro8XUNLkdAr5K3AtHp4apGbK0Z+rGlN9N
+EtkCx5xofBiZGmEs/vqlmgLLRwM/8trjT7zi01akMzq2P0fWBq29EDv8nKeF4H52
+c/JoDmT/LrfXSXXUxqcNQ851/4ndAgMBAAECgYEAjQ0kEIGxdLWTJ5I0KoGnKjAV
+jbOxqpqcshQ2tU6+pjH8Sm4cwDBRBUvBTIaSq9+uuyG6vZhAwbmKHJRQerVyQtjF
+UJQzj/DLkM/NSfuK624/96Z6dirCB3KtSqXbYA2dLYP9L303HHXh8yIdxTjiSoLL
+xZku5MIXlwtIhLhK1c0CQQDT8mCbf79wURY4EAyWo+404IlLTC/q+OxXmLsWE3Pp
+dx+A7OPBIOuvBzWX5i47tvpFVPitTLQmVO2ZzzQaC4lDAkEAtpgsV/+NBD24kqOj
+b2QGe15SHpNjNyCGjhxWTvt+v/calRCNvP+Y3pZ/Vu2wpyzfQKVrBzh6J7viKCV9
+odteXwJBAJDn6sMF0VYyKjXES0cG50rBpTyU50IIVFYDdw292QbqyeA0lfap0llF
+XY/v8PYkwPF8CdU6VwTKFfSN5LpV3s8CQQCjEydPdFHaPtFwTatymY/ccLHA0vti
+Sa9CjnZa1ewuwB9CkGU2LcS2zwxtc504wS+midYbvcoDYJ6sIkeg3c3bAkAtJ3yZ
+/yeRVWCUGC47nIa6BYAFzrTAM37KmxAmTJl+z9XYi8oBHyi8puQ3r/MBVJZdhJhB
+27k1C1VlbQCqjC8p
+-----END PRIVATE KEY-----
+"""
+}

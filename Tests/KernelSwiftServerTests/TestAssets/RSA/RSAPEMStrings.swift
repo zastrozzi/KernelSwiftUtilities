@@ -1,0 +1,237 @@
+//
+//  File.swift
+//  
+//
+//  Created by Jonathan Forbes on 12/10/2023.
+//
+
+import KernelSwiftServer
+
+public enum RSAPEMStrings {}
+
+extension KernelCryptography.RSA.KeySize {
+    public var testSamplePublicKey: KernelCryptography.RSA.PublicKey {
+        let pem: String = switch self {
+        case .b256: RSAPEMStrings.pkcs1PublicKey256
+        case .b512: RSAPEMStrings.pkcs1PublicKey512
+        case .b768: RSAPEMStrings.pkcs1PublicKey768
+        case .b1024: RSAPEMStrings.pkcs1PublicKey1024
+        case .b1280: RSAPEMStrings.pkcs1PublicKey1280
+        case .b1536: RSAPEMStrings.pkcs1PublicKey1536
+        case .b2048: RSAPEMStrings.pkcs1PublicKey2048
+        case .b3072: RSAPEMStrings.pkcs1PublicKey3072
+        case .b4096: RSAPEMStrings.pkcs1PublicKey4096
+        default: preconditionFailure("No sample key")
+        }
+        let parsed = try! KernelASN1.ASN1Parser4.objectFromPEM(pemString: pem)!
+        return try! .init(from: parsed.asn1())
+    }
+    
+    public var testSamplePrivateKey: KernelCryptography.RSA.PrivateKey {
+        let pem: String = switch self {
+        case .b256: RSAPEMStrings.pkcs1PrivateKey256
+        case .b512: RSAPEMStrings.pkcs1PrivateKey512
+        case .b768: RSAPEMStrings.pkcs1PrivateKey768
+        case .b1024: RSAPEMStrings.pkcs1PrivateKey1024
+        case .b1280: RSAPEMStrings.pkcs1PrivateKey1280
+        case .b1536: RSAPEMStrings.pkcs1PrivateKey1536
+        case .b2048: RSAPEMStrings.pkcs1PrivateKey2048
+        case .b3072: RSAPEMStrings.pkcs1PrivateKey3072
+        case .b4096: RSAPEMStrings.pkcs1PrivateKey4096
+        default: preconditionFailure("No sample key")
+        }
+        let parsed = try! KernelASN1.ASN1Parser4.objectFromPEM(pemString: pem)!
+        return try! .init(from: parsed.asn1())
+    }
+}
+
+extension RSAPEMStrings {
+    public static let rsa4096pkcs8private: String =
+"""
+-----BEGIN PRIVATE KEY-----
+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
+ClpkvNcVYN+3HnjQjanw2uU75tkofg==
+-----END PRIVATE KEY-----
+"""
+    
+    public static let rsa4096pkcs8public: String =
+"""
+-----BEGIN PUBLIC KEY-----
+MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2sEQR5G/sPi5cTBNtGS2
+DMb43T8mPlorWfgmIP8Lh6GUkUzRuv/iQITlfICpfQ+3eQXHPK9AOpxCGIfyEwJh
+NSPm6lPO98jaSkWRZZB+tdWbzQH1xUmS/hEu+OGHhX92QPbjiNYOVuCTpLSXWR9y
+/ERDycpZuXijYsBvfS8Yr+YGoPe6f6w3HNOSX615tV9PWlYPS5Fl/4JAdxWBY5bN
+uxeQ/adX6B1dvj+IAwXaOdpIj65/6TVgKRy9KLiH3eC5ZjizbdXwM/K64/V9TuQr
+h1HkU1ME5yhGPZUjgV6qHdxXRRrl7n475QDwht81ULmPTe68E/uozpReerSmMEBf
+rR8FnJVLPQQcLySNUo7sCnPH0hK5kj3NG3dyYV4wVnK2VGseV3GsOD1GhtNaiQ+r
+c3En/FeenFZ9mjQgUjCz3wRtziNAdM4rd10f3uk0xEIthz7Q7GNz4k1xVFxqbcle
+6UH8Z+2/4MdQT2kqOoAqQIE0Iw6wixluHXh6OTsSAzyBUCgM4o6pxR9LuV5CerD2
+3kRZShifcpDWVIlP+wv7k2Q4sVlsrJbLWKqSYHXtGQ+jThnCmPqIh3WFijRKfuO0
+nYzpKxmmIY6ZD39ZvT3gq/5WDr3iYafGNfL0DVlGP98umzF0wyzOK1pl6Pwy/9Bd
+cpSQs2C2z25gmgJ11koHpL0CAwEAAQ==
+-----END PUBLIC KEY-----
+"""
+    
+    public static let rsa4096pkcs1private: String =
+"""
+-----BEGIN RSA PRIVATE KEY-----
+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
+-----END RSA PRIVATE KEY-----
+"""
+    
+    public static let rsa4096pkcs1public: String =
+"""
+-----BEGIN RSA PUBLIC KEY-----
+MIICCgKCAgEA2sEQR5G/sPi5cTBNtGS2DMb43T8mPlorWfgmIP8Lh6GUkUzRuv/i
+QITlfICpfQ+3eQXHPK9AOpxCGIfyEwJhNSPm6lPO98jaSkWRZZB+tdWbzQH1xUmS
+/hEu+OGHhX92QPbjiNYOVuCTpLSXWR9y/ERDycpZuXijYsBvfS8Yr+YGoPe6f6w3
+HNOSX615tV9PWlYPS5Fl/4JAdxWBY5bNuxeQ/adX6B1dvj+IAwXaOdpIj65/6TVg
+KRy9KLiH3eC5ZjizbdXwM/K64/V9TuQrh1HkU1ME5yhGPZUjgV6qHdxXRRrl7n47
+5QDwht81ULmPTe68E/uozpReerSmMEBfrR8FnJVLPQQcLySNUo7sCnPH0hK5kj3N
+G3dyYV4wVnK2VGseV3GsOD1GhtNaiQ+rc3En/FeenFZ9mjQgUjCz3wRtziNAdM4r
+d10f3uk0xEIthz7Q7GNz4k1xVFxqbcle6UH8Z+2/4MdQT2kqOoAqQIE0Iw6wixlu
+HXh6OTsSAzyBUCgM4o6pxR9LuV5CerD23kRZShifcpDWVIlP+wv7k2Q4sVlsrJbL
+WKqSYHXtGQ+jThnCmPqIh3WFijRKfuO0nYzpKxmmIY6ZD39ZvT3gq/5WDr3iYafG
+NfL0DVlGP98umzF0wyzOK1pl6Pwy/9BdcpSQs2C2z25gmgJ11koHpL0CAwEAAQ==
+-----END RSA PUBLIC KEY-----
+"""
+
+    public static let rsaPublicKeyPKCS1: String =
+"""
+-----BEGIN RSA PUBLIC KEY-----
+MEgCQQCo9+BpMRYQ/dL3DS2CyJxRF+j6ctbT3/Qp84+KeFhnii7NT7fELilKUSnx
+S30WAvQCCo2yU1orfgqr41mM70MBAgMBAAE=
+-----END RSA PUBLIC KEY-----
+"""
+    
+    public static let rsaPrivateKeyPKCS1: String =
+"""
+-----BEGIN RSA PRIVATE KEY-----
+MIIBOgIBAAJBAKj34GkxFhD90vcNLYLInFEX6Ppy1tPf9Cnzj4p4WGeKLs1Pt8Qu
+KUpRKfFLfRYC9AIKjbJTWit+CqvjWYzvQwECAwEAAQJAIJLixBy2qpFoS4DSmoEm
+o3qGy0t6z09AIJtH+5OeRV1be+N4cDYJKffGzDa88vQENZiRm0GRq6a+HPGQMd2k
+TQIhAKMSvzIBnni7ot/OSie2TmJLY4SwTQAevXysE2RbFDYdAiEBCUEaRQnMnbp7
+9mxDXDf6AU0cN/RPBjb9qSHDcWZHGzUCIG2Es59z8ugGrDY+pxLQnwfotadxd+Uy
+v/Ow5T0q5gIJAiEAyS4RaI9YG8EWx/2w0T67ZUVAw8eOMB6BIUg0Xcu+3okCIBOs
+/5OiPgoTdSy7bcF9IGpSE8ZgGKzgYQVZeN97YE00
+-----END RSA PRIVATE KEY-----
+"""
+    
+    public static let rsaPublicKeyPKCS8: String =
+"""
+-----BEGIN PUBLIC KEY-----
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKj34GkxFhD90vcNLYLInFEX6Ppy1tPf
+9Cnzj4p4WGeKLs1Pt8QuKUpRKfFLfRYC9AIKjbJTWit+CqvjWYzvQwECAwEAAQ==
+-----END PUBLIC KEY-----
+"""
+    
+    public static let rsaPrivateKeyPKCS8: String =
+"""
+-----BEGIN PRIVATE KEY-----
+MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAqPfgaTEWEP3S9w0t
+gsicURfo+nLW09/0KfOPinhYZ4ouzU+3xC4pSlEp8Ut9FgL0AgqNslNaK34Kq+NZ
+jO9DAQIDAQABAkAgkuLEHLaqkWhLgNKagSajeobLS3rPT0Agm0f7k55FXVt743hw
+Ngkp98bMNrzy9AQ1mJGbQZGrpr4c8ZAx3aRNAiEAoxK/MgGeeLui385KJ7ZOYktj
+hLBNAB69fKwTZFsUNh0CIQEJQRpFCcydunv2bENcN/oBTRw39E8GNv2pIcNxZkcb
+NQIgbYSzn3Py6AasNj6nEtCfB+i1p3F35TK/87DlPSrmAgkCIQDJLhFoj1gbwRbH
+/bDRPrtlRUDDx44wHoEhSDRdy77eiQIgE6z/k6I+ChN1LLttwX0galITxmAYrOBh
+BVl433tgTTQ=
+-----END PRIVATE KEY-----
+"""
+}
