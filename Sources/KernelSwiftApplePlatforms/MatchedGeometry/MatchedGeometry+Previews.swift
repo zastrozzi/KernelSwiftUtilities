@@ -136,6 +136,7 @@ fileprivate struct CardView2: View {
                         
                         .navigationTitle(item.type.rawValue)
                         .toolbar {
+                            #if os(iOS)
                             ToolbarItem(placement: .topBarLeading) {
                                 Button {
                                     expandSheet.toggle()
@@ -148,6 +149,7 @@ fileprivate struct CardView2: View {
                                     }
                                 }
                             }
+                            #endif
                         }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
@@ -211,10 +213,19 @@ extension View {
                         .navigationBarBackButtonHidden()
                 }
         case .fullScreenCover:
+            #if os(iOS)
             self
                 .fullScreenCover(isPresented: isPresented, content: {
                     content()
                 })
+            #else
+            self
+                .sheet(isPresented: isPresented, content: {
+                    content()
+                        .presentationDetents([.medium, .fraction(0.99)])
+                    //                        .interactiveDismissDisabled()
+                })
+            #endif
         }
     }
 }

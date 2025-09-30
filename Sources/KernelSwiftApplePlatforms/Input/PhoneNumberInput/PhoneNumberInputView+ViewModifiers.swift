@@ -8,6 +8,7 @@
 import SwiftUI
 import PhoneNumberKit
 
+#if canImport(UIKit)
 extension PhoneNumberInputView {
     public func font(_ font: UIFont?) -> Self {
         var view = self
@@ -254,3 +255,4 @@ extension PhoneNumberInputView {
         return view
     }
 }
+#endif

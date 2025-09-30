@@ -7,6 +7,7 @@
 
 extension KernelAppUtils.Device.KnownDevice {
     public static var allTouchIDCapableDevices: [Self] {
+        #if os(iOS)
         return [
             .iPhone5s,
             .iPhone6,
@@ -41,9 +42,13 @@ extension KernelAppUtils.Device.KnownDevice {
             .iPadPro12Inch2,
             .iPadPro10Inch
         ]
+        #else
+        return []
+        #endif
     }
     
     public static var allFaceIDCapableDevices: [Self] {
+        #if os(iOS)
         return [
             .iPhoneX,
             .iPhoneXS,
@@ -83,6 +88,9 @@ extension KernelAppUtils.Device.KnownDevice {
             .iPadPro11M4,
             .iPadPro13M4
         ]
+        #else
+        return []
+        #endif
     }
     
     public static func isTouchIDCapable(_ device: Self) -> Bool {

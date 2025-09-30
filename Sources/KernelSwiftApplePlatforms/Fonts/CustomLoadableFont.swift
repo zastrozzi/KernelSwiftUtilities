@@ -36,7 +36,7 @@ extension CustomLoadableFont {
         Font.custom(weight.rawValue, size: style.defaultSize, relativeTo: style)
     }
     
-    
+    #if canImport(UIKit)
     public static func customUIFontWithSize(_ weight: Self, _ size: CGFloat) -> UIFont {
         UIFont(name: weight.rawValue, size: size)!
     }
@@ -44,6 +44,7 @@ extension CustomLoadableFont {
     public static func customUIFontWithStyle(_ weight: Self, _ style: Font.TextStyle) -> UIFont {
         UIFont(name: weight.rawValue, size: style.defaultSize)!
     }
+    #endif
 }
 
 extension Font.TextStyle {

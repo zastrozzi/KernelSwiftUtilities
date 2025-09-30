@@ -19,9 +19,11 @@ struct LeadingIconTextFieldStylePreviews: View {
             LazyVStack {
                 TextField("Text Field", text: $inputText)
                     .focused($inputFocused)
+                #if os(iOS)
                     .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
                     .autocapitalization(.none)
+                #endif
+                    .textContentType(.emailAddress)
                     .textFieldStyle(
                         LeadingIconTextFieldStyle(
                             isFocused: $inputFocused,
@@ -53,10 +55,12 @@ struct LeadingIconTextFieldStylePreviews: View {
                     cornerStyle: .continuous
                 )
 //                    .focused($iconInputFocused)
+#if os(iOS)
                     .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
                     .autocapitalization(.none)
                     .submitLabel(.continue)
+                #endif
                     
             }.padding()
         }

@@ -10,6 +10,7 @@ import AVFoundation
 import SwiftUI
 
 extension KernelAppUtils.CodeScanner {
+    #if os(iOS) || targetEnvironment(macCatalyst)
     public struct CodeScannerView: UIViewControllerRepresentable {
         public let codeTypes: [AVMetadataObject.ObjectType]
         public let scanMode: ScanMode
@@ -70,10 +71,16 @@ extension KernelAppUtils.CodeScanner {
         }
         
     }
-    
-    
+    #else
+    public struct CodeScannerView: View {
+        public var body: some View {
+            Text("Platform not supported")
+        }
+    }
+    #endif
 }
 
+#if os(iOS) || targetEnvironment(macCatalyst)
 @available(macCatalyst 14.0, *)
 extension KernelAppUtils.CodeScanner.CodeScannerView {
     
@@ -82,3 +89,4 @@ extension KernelAppUtils.CodeScanner.CodeScannerView {
         requiresPhotoOutput
     }
 }
+#endif

@@ -9,8 +9,8 @@ import Foundation
 import AVFoundation
 import SwiftUI
 
+#if canImport(UIKit)
 extension KernelAppUtils.CodeScanner {
-    
     public final class ScannerViewController: UIViewController, UINavigationControllerDelegate {
         private let photoOutput = AVCapturePhotoOutput()
         private var isCapturing = false
@@ -589,3 +589,5 @@ public extension AVCaptureDevice {
     }
     
 }
+
+#endif

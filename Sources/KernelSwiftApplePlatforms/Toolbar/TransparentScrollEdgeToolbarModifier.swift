@@ -19,11 +19,13 @@ public struct TransparentScrollEdgeToolbarModifier: ViewModifier {
     
     @MainActor
     public static func setTransparentScrollEdge() {
+        #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
         let translucentAppearance = UIToolbarAppearance()
         translucentAppearance.configureWithTransparentBackground()
         translucentAppearance.backgroundColor = .systemBackground.withAlphaComponent(0.7)
         translucentAppearance.backgroundEffect = UIBlurEffect(style: .regular)
         UIToolbar.appearance().standardAppearance = translucentAppearance
+        #endif
     }
 }
 

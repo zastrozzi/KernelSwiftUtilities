@@ -1,5 +1,5 @@
 {
-  "originHash" : "68503a108b7d31dfc7bc50415f432a8ddcc655c8150c03d569a87902ee2c3af8",
+  "originHash" : "7711ecc4d9c80ce03b41ec870d8d3a1af302208068c674c1748d231a47e9ac45",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -467,14 +467,6 @@
       "state" : {
         "revision" : "3d6871d5b4a5cd519adf233fbb576e0a2af71c17",
         "version" : "5.4.0"
-      }
-    },
-    {
-      "identity" : "zxingify-objc",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zxingify/zxingify-objc.git",
-      "state" : {
-        "revision" : "510db5f6ed293bf2f9e1905d3b8268c502f3fb55"
       }
     }
   ],

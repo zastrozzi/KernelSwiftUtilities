@@ -8,6 +8,7 @@
 import SwiftUI
 import PhoneNumberKit
 
+#if canImport(UIKit)
 public struct PhoneNumberInputView: UIViewRepresentable {
     @Binding public var text: String
     @State private var displayedText: String
@@ -252,3 +253,10 @@ public struct PhoneNumberInputView: UIViewRepresentable {
         }
     }
 }
+#else
+public struct PhoneNumberInputView: View {
+    public var body: some View {
+        Text("Platform not supported")
+    }
+}
+#endif

@@ -62,7 +62,9 @@ extension VerificationInput {
             .background {
                 TextField("", text: $value)
                     .focused($isActive)
+                #if os(iOS)
                     .keyboardType(.numberPad)
+                #endif
                     .textContentType(.oneTimeCode)
                     .mask(alignment: .trailing) {
                         Rectangle()

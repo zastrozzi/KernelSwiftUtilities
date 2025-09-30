@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
+//import UIKit
 
 extension Notification.Name: @retroactive CaseIterable {
     public static var allCases: [Notification.Name] {

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+#if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
 public struct MatchedGeometryWrapperView<Content: View>: View {
     @ViewBuilder var content: Content
     @Environment(\.scenePhase) private var scenePhase
@@ -57,3 +58,10 @@ extension View {
         MatchedGeometryWrapperView(isPreview: isPreview) { self }
     }
 }
+#else
+extension View {
+    public func matchedGeometryWrapper(isPreview: Bool = false) -> some View {
+        self
+    }
+}
+#endif

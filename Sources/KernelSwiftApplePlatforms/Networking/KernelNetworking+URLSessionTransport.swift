@@ -197,12 +197,12 @@ extension KernelNetworking.URLSessionTransportError: CustomStringConvertible {
     }
 }
 
-private let _debugLoggingEnabled = KernelSwiftCommon.Concurrency.Core.StreamLock.Storage.create(value: false)
+nonisolated(unsafe) private let _debugLoggingEnabled = KernelSwiftCommon.Concurrency.Core.StreamLock.Storage.create(value: false)
 var debugLoggingEnabled: Bool {
     get { _debugLoggingEnabled.withLockedValue { $0 } }
     set { _debugLoggingEnabled.withLockedValue { $0 = newValue } }
 }
-private let _standardErrorLock = KernelSwiftCommon.Concurrency.Core.StreamLock.Storage.create(value: FileHandle.standardError)
+nonisolated(unsafe) private let _standardErrorLock = KernelSwiftCommon.Concurrency.Core.StreamLock.Storage.create(value: FileHandle.standardError)
 
 extension KernelNetworking {
     static func logDebug(_ message: @autoclosure () -> String, function: String = #function, file: String = #file, line: UInt = #line) {

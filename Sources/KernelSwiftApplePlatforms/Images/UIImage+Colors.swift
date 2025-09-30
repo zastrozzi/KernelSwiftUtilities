@@ -5,7 +5,7 @@
 //  Created by Jonathan Forbes on 20/03/2025.
 //
 
-#if os(OSX)
+#if os(macOS)
 import AppKit
 public typealias UIImage = NSImage
 public typealias UIColor = NSColor
@@ -351,7 +351,17 @@ extension UIImage {
 
 extension UIImage {
     public var averageColor: UIColor? {
+        #if os(macOS)
+        guard
+            let tiffRepresentation = self.tiffRepresentation,
+            let tiffBitmap = NSBitmapImageRep(data: tiffRepresentation),
+            let inputImage = CIImage(bitmapImageRep: tiffBitmap)   
+        else {
+            return nil
+        }
+        #else
         guard let inputImage = CIImage(image: self) else { return nil }
+        #endif
         let extentVector = CIVector(x: inputImage.extent.origin.x, y: inputImage.extent.origin.y, z: inputImage.extent.size.width, w: inputImage.extent.size.height)
         
         guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: extentVector]) else { return nil }
