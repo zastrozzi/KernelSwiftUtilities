@@ -10,8 +10,9 @@ import NIOHTTP1
 import NIOWebSocket
 
 #if canImport(Network)
+import NIOPosix
 import NIOTransportServices
-typealias PlatformBootstrap = NIOTSConnectionBootstrap
+typealias PlatformBootstrap = ClientBootstrap
 #else
 import NIOPosix
 typealias PlatformBootstrap = ClientBootstrap

@@ -102,7 +102,7 @@ extension Binding where Value == Bool {
     }
 }
 
-extension Binding where Value: Equatable {
+extension Binding where Value: Equatable & Sendable {
     public func removeDuplicates() -> Self {
         self.removeDuplicates { c0, c1 in
             c0 == c1

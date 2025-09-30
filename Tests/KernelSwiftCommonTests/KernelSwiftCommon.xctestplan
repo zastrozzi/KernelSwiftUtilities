@@ -13,54 +13,6 @@
   },
   "testTargets" : [
     {
-      "skippedTests" : {
-        "suites" : [
-          {
-            "name" : "BigIntAdditiveArithmeticTests"
-          },
-          {
-            "name" : "RGBAColorTests"
-          },
-          {
-            "name" : "TaggedMemoryCacheTests"
-          }
-        ],
-        "xctestClasses" : [
-          {
-            "name" : "BigIntBinaryOperationsTest"
-          },
-          {
-            "name" : "BigIntBurnikelZieglerTest"
-          },
-          {
-            "name" : "BigIntComparableTest"
-          },
-          {
-            "name" : "BigIntDoubleWordsTest"
-          },
-          {
-            "name" : "BigIntModularArithmeticTest"
-          },
-          {
-            "name" : "BigIntPrimeTest"
-          },
-          {
-            "name" : "BigIntScalingArithmeticTest"
-          },
-          {
-            "name" : "BigUIntTests"
-          },
-          {
-            "name" : "ECDomainTests"
-          },
-          {
-            "name" : "Float16Tests"
-          },
-          {
-            "name" : "UnsignedIntegerTests"
-          }
-        ]
-      },
       "target" : {
         "containerPath" : "container:",
         "identifier" : "KernelSwiftCommonTests",

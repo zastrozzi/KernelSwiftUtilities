@@ -342,4 +342,4 @@ typealias PartialPathOperationContext = (
 
 typealias PathOperationConstructor = (PartialPathOperationContext) -> (path: OpenAPI.Path, verb: OpenAPI.HttpMethod, operation: OpenAPI.Operation)
 
-extension HTTPHeaders.Name: @unchecked Sendable {}
+//extension HTTPHeaders.Name: @unchecked Sendable {}

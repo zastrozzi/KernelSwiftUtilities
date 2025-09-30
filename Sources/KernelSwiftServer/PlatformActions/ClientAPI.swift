@@ -24,7 +24,7 @@ public typealias HostURLFactory<Context> = @Sendable (_ context: Context) async 
 public typealias ErrorFactory<ErrorType: Codable> = @Sendable (_ clientResponse: ClientResponse) throws -> ErrorType
 
 extension PlatformAction.ClientAPI {
-    public struct Context<ErrorType: Codable>: Sendable {
+    public struct Context<ErrorType: Codable & Sendable>: Sendable {
         @KernelDI.Injected(\.vapor) private var app: Application
         
         public func kernelDI<Container: KernelServerPlatform.FeatureContainer>(_ containerType: Container.Type) -> Container {

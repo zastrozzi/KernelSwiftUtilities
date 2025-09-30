@@ -8,4 +8,4 @@
 import Foundation
 import Vapor
 
-extension HTTPMethod: Codable {}
+extension HTTPMethod: @retroactive Codable {}

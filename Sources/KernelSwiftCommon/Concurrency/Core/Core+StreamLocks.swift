@@ -18,7 +18,7 @@ private import Glibc
 #endif
 
 extension KernelSwiftCommon.Concurrency.Core {
-    public struct StreamLock {
+    public struct StreamLock: @unchecked Sendable {
         public typealias Primitive = pthread_mutex_t
         
         @usableFromInline
@@ -93,7 +93,7 @@ extension KernelSwiftCommon.Concurrency.Core.StreamLock.Operations {
 
 extension KernelSwiftCommon.Concurrency.Core.StreamLock {
     
-    public final class Storage<Value>: ManagedBuffer<Value, Primitive> {
+    public final class Storage<Value: Sendable>: ManagedBuffer<Value, Primitive> {
         
         @inlinable
         public static func create(value: Value) -> Self {
@@ -150,7 +150,7 @@ extension KernelSwiftCommon.Concurrency.Core.StreamLock {
     }
 }
 
-extension KernelSwiftCommon.Concurrency.Core.StreamLock.Storage: @unchecked Sendable {}
+//extension KernelSwiftCommon.Concurrency.Core.StreamLock.Storage: @unchecked Sendable {}
 
 extension KernelSwiftCommon.Concurrency.Core.StreamLock {
     public func withLock<T>(_ body: () throws -> T) rethrows -> T {
@@ -162,7 +162,7 @@ extension KernelSwiftCommon.Concurrency.Core.StreamLock {
     }
 }
 
-extension KernelSwiftCommon.Concurrency.Core.StreamLock: Sendable {}
+//extension KernelSwiftCommon.Concurrency.Core.StreamLock: @unchecked Sendable {}
 
 extension UnsafeMutablePointer {
     @inlinable
@@ -172,7 +172,7 @@ extension UnsafeMutablePointer {
 }
 
 extension KernelSwiftCommon.Concurrency.Core.StreamLock {
-    public struct LockedValueBox<Value> {
+    public struct LockedValueBox<Value: Sendable>: @unchecked Sendable {
         @usableFromInline
         let storage: Storage<Value>
         
@@ -187,4 +187,4 @@ extension KernelSwiftCommon.Concurrency.Core.StreamLock {
     }
 }
 
-extension KernelSwiftCommon.Concurrency.Core.StreamLock.LockedValueBox: Sendable where Value: Sendable {}
+//extension KernelSwiftCommon.Concurrency.Core.StreamLock.LockedValueBox: Sendable where Value: Sendable {}

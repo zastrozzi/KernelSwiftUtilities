@@ -90,7 +90,7 @@ extension KernelSwiftCommon.Concurrency.BufferedStream: Sendable where Element: 
 
 extension KernelSwiftCommon.Concurrency.BufferedStream {
     @usableFromInline
-    internal struct _ManagedCriticalState<State>: @unchecked Sendable {
+    internal struct _ManagedCriticalState<State: Sendable>: @unchecked Sendable {
         @usableFromInline
         let lock: KernelSwiftCommon.Concurrency.Core.StreamLock.LockedValueBox<State>
         
@@ -732,11 +732,11 @@ extension KernelSwiftCommon.Concurrency.BufferedStream {
 extension KernelSwiftCommon.Concurrency.BufferedStream {
     
     @usableFromInline
-    struct _StateMachine {
+    struct _StateMachine: Sendable {
         @usableFromInline
-        enum _State {
+        enum _State: Sendable {
             @usableFromInline
-            struct Initial {
+            struct Initial: Sendable {
                 
                 @usableFromInline
                 var backPressureStrategy: _InternalBackPressureStrategy
@@ -760,7 +760,7 @@ extension KernelSwiftCommon.Concurrency.BufferedStream {
             }
             
             @usableFromInline
-            struct Streaming {
+            struct Streaming: Sendable {
                 
                 @usableFromInline
                 var backPressureStrategy: _InternalBackPressureStrategy
@@ -778,7 +778,7 @@ extension KernelSwiftCommon.Concurrency.BufferedStream {
                 var consumerContinuation: CheckedContinuation<Element?, any Error>?
                 
                 @usableFromInline
-                var producerContinuations: Deque<(UInt, (Result<Void, any Error>) -> Void)>
+                var producerContinuations: Deque<(UInt, @Sendable (Result<Void, any Error>) -> Void)>
                 
                 @usableFromInline
                 var cancelledAsyncProducers: Deque<UInt>
@@ -793,7 +793,7 @@ extension KernelSwiftCommon.Concurrency.BufferedStream {
                     onTermination: (@Sendable () -> Void)? = nil,
                     buffer: Deque<Element>,
                     consumerContinuation: CheckedContinuation<Element?, any Error>? = nil,
-                    producerContinuations: Deque<(UInt, (Result<Void, any Error>) -> Void)>,
+                    producerContinuations: Deque<(UInt, @Sendable (Result<Void, any Error>) -> Void)>,
                     cancelledAsyncProducers: Deque<UInt>,
                     hasOutstandingDemand: Bool
                 ) {
@@ -809,7 +809,7 @@ extension KernelSwiftCommon.Concurrency.BufferedStream {
             }
             
             @usableFromInline
-            struct SourceFinished {
+            struct SourceFinished: Sendable {
                 
                 @usableFromInline
                 var iteratorInitialized: Bool

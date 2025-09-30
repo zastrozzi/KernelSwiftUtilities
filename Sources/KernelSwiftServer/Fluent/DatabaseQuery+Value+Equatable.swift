@@ -39,7 +39,7 @@ extension DatabaseQuery.Value {
     }
 }
 
-extension DatabaseQuery.Value: Codable {
+extension DatabaseQuery.Value: @retroactive Codable {
     public func encode(to encoder: Encoder) throws {
         switch self {
         case .bind(let bind):

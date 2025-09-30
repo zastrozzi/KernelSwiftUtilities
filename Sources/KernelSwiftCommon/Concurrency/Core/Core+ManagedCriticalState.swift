@@ -8,10 +8,10 @@
 import Foundation
 
 extension KernelSwiftCommon.Concurrency.Core {
-    public struct ManagedCriticalState<State: Sendable>: Sendable {
+    public struct ManagedCriticalState<State: Sendable>: @unchecked Sendable {
         
         @usableFromInline
-        internal final class LockedBuffer: ManagedBuffer<State, CriticalLock.Primitive>, @unchecked Sendable {
+        internal final class LockedBuffer: ManagedBuffer<State, CriticalLock.Primitive> {
             deinit {
                 withUnsafeMutablePointerToElements { CriticalLock.deinitialize($0) }
             }
@@ -38,4 +38,6 @@ extension KernelSwiftCommon.Concurrency.Core {
     }
 }
 
+#if compiler(<6.2)
 extension ManagedBuffer: @unchecked @retroactive Sendable {}
+#endif

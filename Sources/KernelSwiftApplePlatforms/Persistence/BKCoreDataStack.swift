@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CoreData
+@preconcurrency import CoreData
 @preconcurrency import Combine
 import KernelSwiftCommon
 
@@ -94,6 +94,9 @@ public struct BKCoreDataStack: BKPersistentStore {
     public func fetch<T: Sendable, V: Sendable>(_ fetchRequest: NSFetchRequest<T>, map: @escaping @Sendable (T) throws -> V?) -> AnyPublisher<LazyList<V>, Error> where T : NSFetchRequestResult {
         assert(Thread.isMainThread)
         let fetch = Future<LazyList<V>, Error> { [weak container] future in
+#if swift(>=6)
+            nonisolated(unsafe) let future = future
+#endif
             guard let context = container?.viewContext else { return }
             context.performAndWait {
                 do {
@@ -178,3 +181,4 @@ extension BKCoreDataStack {
         }
     }
 }
+

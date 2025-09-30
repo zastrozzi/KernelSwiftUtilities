@@ -9,7 +9,7 @@ import Foundation
 
 extension KernelValidation.Validator {
     public static func `case`<E>(of enum: E.Type) -> KernelValidation.Validator<T>
-    where E: RawRepresentable & CaseIterable, E.RawValue == T, T: CustomStringConvertible
+    where E: RawRepresentable & CaseIterable & Sendable, E.RawValue == T, T: CustomStringConvertible
     {
         .init {
             KernelValidation.ValidatorResults.Case(enumType: E.self, rawValue: $0)
@@ -20,7 +20,7 @@ extension KernelValidation.Validator {
 
 extension KernelValidation.ValidatorResults {
     public struct Case<T, E>
-    where E: RawRepresentable & CaseIterable, E.RawValue == T, T: CustomStringConvertible & Sendable
+    where E: RawRepresentable & CaseIterable & Sendable, E.RawValue == T, T: CustomStringConvertible & Sendable
     {
         public let enumType: E.Type
         public let rawValue: T

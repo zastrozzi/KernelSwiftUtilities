@@ -20,7 +20,7 @@ extension KernelSwiftCommon.Concurrency.Bytes {
             }
         }
         
-        class Storage : ManagedBuffer<Header, UInt8>, @unchecked Sendable {
+        class Storage : ManagedBuffer<Header, UInt8> {
             var finished: Bool {
                 get { return header.finished }
                 set { header.finished = newValue }

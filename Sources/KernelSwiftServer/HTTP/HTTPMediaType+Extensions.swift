@@ -49,7 +49,7 @@ extension HTTPMediaType {
     }
 }
 
-extension HTTPMediaType: Codable {
+extension HTTPMediaType: @retroactive Codable {
     public func encode(to encoder: any Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(serialize())

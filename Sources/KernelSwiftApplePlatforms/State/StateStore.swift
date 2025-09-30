@@ -34,11 +34,11 @@ public extension StateStore {
     }
 }
 
-public extension ObservableObject {
+public extension ObservableObject where Self: Sendable {
     func loadableSubject<Value: Sendable>(_ keyPath: WritableKeyPath<Self, Loadable<Value>>) -> LoadableSubject<Value> {
 #if swift(>=6)
         nonisolated(unsafe) var concurrentSelf = self
-        nonisolated(unsafe) let concurrentKeyPath = keyPath
+        let concurrentKeyPath = keyPath
 #else
         var concurrentSelf = self
         let concurrentKeyPath = keyPath
@@ -55,3 +55,4 @@ public extension ObservableObject {
         )
     }
 }
+

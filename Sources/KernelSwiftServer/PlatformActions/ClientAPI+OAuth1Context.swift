@@ -12,7 +12,7 @@ import KernelSwiftCommon
 public typealias OAuth1HTTPHeadersFactory<Context> = @Sendable (_ context: Context, _ clientReq: ClientRequest) throws -> HTTPHeaders
 
 extension PlatformAction.ClientAPI {
-    public struct OAuth1Context<ErrorType: Codable>: Sendable {
+    public struct OAuth1Context<ErrorType: Codable & Sendable>: Sendable {
         @KernelDI.Injected(\.vapor) private var app: Application
         
         public func kernelDI<Container: KernelServerPlatform.FeatureContainer>(

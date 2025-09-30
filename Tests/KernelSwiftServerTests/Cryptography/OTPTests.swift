@@ -152,10 +152,10 @@ public struct OTPTests {
     
     @Test
     func testTOTPAfter20Seconds() throws {
-        let sendTime = Date()
+        let sendTime = Date(timeIntervalSince1970: 20000000000)
         let totp = try KernelCryptography.OTP.TOTP(secret: dataSHA512, digits: 8, timeInterval: 30, algorithm: .sha512)
-        let sentCode = try totp.generate(secondsPast1970: Int(sendTime.timeIntervalSince1970))
-        let receivedCode = try totp.generate(secondsPast1970: Int(sendTime.timeIntervalSince1970) + 20)
+        let sentCode = try totp.generate(time: sendTime)
+        let receivedCode = try totp.generate(time: sendTime.addingTimeInterval(5))
         let receivedLaterCode = try totp.generate(secondsPast1970: Int(sendTime.timeIntervalSince1970) + 40)
         #expect(sentCode == receivedCode)
         #expect(sentCode != receivedLaterCode)

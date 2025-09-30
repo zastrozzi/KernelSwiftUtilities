@@ -10,7 +10,7 @@ import SwiftUI
 
 #if compiler(>=5.7)
 @available(iOS, deprecated: 17.0, message: "Use SwiftUI Navigation API")
-public struct BackportNavigationPath {
+public struct BackportNavigationPath: @unchecked Sendable {
     var elements: [any Hashable]
     
     public var count: Int { elements.count }
@@ -20,7 +20,7 @@ public struct BackportNavigationPath {
         self.elements = elements
     }
     
-    public init<S: Sequence>(_ elements: S) where S.Element: Hashable {
+    public init<S: Sequence>(_ elements: S) where S.Element: Hashable & Sendable {
         self.init(elements.map(AnyHashable.init))
     }
     

@@ -57,4 +57,4 @@ extension KernelSwiftCommon.Concurrency.LifecycleBox {
     }
 }
 
-extension DispatchSource: Sendable {}
+//extension DispatchSource: Sendable {}
