@@ -61,4 +61,8 @@ extension UUID {
         bytes.14 = safeByteArray[14]
         bytes.15 = safeByteArray[15]
     }
+    
+    public static func makeZeroBytes() -> UUID {
+        .init(uuidByteArray: [UInt8](repeating: 0, count: 16))
+    }
 }
