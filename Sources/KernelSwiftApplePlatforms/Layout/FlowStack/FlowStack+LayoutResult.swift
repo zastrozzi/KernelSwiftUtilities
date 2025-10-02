@@ -13,15 +13,24 @@ extension FlowStack {
         var bounds = CGSize.zero
         var rows = [LayoutRow]()
         
-        public init(in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?) {
+        public init(
+            in maxPossibleWidth: Double,
+            subviews: Subviews,
+            alignment: Alignment,
+            horizontalSpacing: CGFloat?,
+            verticalSpacing: CGFloat?
+        ) {
             var itemsInRow = 0
             var remainingWidth = maxPossibleWidth.isFinite ? maxPossibleWidth : .greatestFiniteMagnitude
             var rowMinY = 0.0
             var rowHeight = 0.0
             var xOffsets: [Double] = []
+            
             for (index, subview) in zip(subviews.indices, subviews) {
                 let idealSize = subview.sizeThatFits(.unspecified)
-                if index != 0 && widthInRow(index: index, idealWidth: idealSize.width) > remainingWidth { finaliseRow(index: max(index - 1, 0), idealSize: idealSize) }
+                if index != 0 && widthInRow(index: index, idealWidth: idealSize.width) > remainingWidth {
+                    finaliseRow(index: max(index - 1, 0), idealSize: idealSize)
+                }
                 addToRow(index: index, idealSize: idealSize)
                 if index == subviews.count - 1 { finaliseRow(index: index, idealSize: idealSize) }
             }
@@ -32,7 +41,8 @@ extension FlowStack {
             
             func spacingBefore(index: Int) -> Double {
                 guard itemsInRow > 0 else { return 0 }
-                return spacing ?? subviews[index - 1].spacing.distance(to: subviews[index].spacing, along: .horizontal)
+                return horizontalSpacing ?? subviews[index - 1]
+                    .spacing.distance(to: subviews[index].spacing, along: .horizontal)
             }
             
             func addToRow(index: Int, idealSize: CGSize) {
@@ -53,7 +63,10 @@ extension FlowStack {
                     )
                 )
                 bounds.width = max(bounds.width, rowWidth)
-                let ySpacing = spacing ?? ViewSpacing().distance(to: ViewSpacing(), along: .vertical)
+                
+                let ySpacing = verticalSpacing ?? ViewSpacing()
+                    .distance(to: ViewSpacing(), along: .vertical)
+                
                 bounds.height += rowHeight + (rows.count > 1 ? ySpacing : 0)
                 rowMinY += rowHeight + ySpacing
                 itemsInRow = 0
