@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-public struct KernelSwiftDataDirectory {
+public struct KernelSwiftDataDirectory: Sendable {
     public var directory: FileManager.SearchPathDirectory
     public var domainMask: FileManager.SearchPathDomainMask
     public var version: UInt
