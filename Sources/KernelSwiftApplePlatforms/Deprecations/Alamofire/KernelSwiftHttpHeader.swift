@@ -9,13 +9,13 @@ import Foundation
 import KernelSwiftCommon
 
 @available(*, deprecated)
-public protocol BKHttpHeader: Printable {
+public protocol KernelSwiftHttpHeader: Printable {
     var key: String { get }
     var value: String? { get }
 }
 
 @available(*, deprecated)
-extension BKHttpHeader {
+extension KernelSwiftHttpHeader {
     public var debugDescription: String {
         return "\(key):\(value?.debugDescription ?? "no value")"
     }

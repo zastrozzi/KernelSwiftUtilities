@@ -7,7 +7,7 @@
 
 import Foundation
 
-//public protocol BKHttpRouter: URLRequestConvertible {
+//public protocol KernelSwiftHttpRouter: URLRequestConvertible {
 //    var baseURLString: String { get }
 //    var path: String { get }
 //    var method: HTTPMethod { get }
@@ -15,10 +15,10 @@ import Foundation
 //    var parameters: Parameters? { get }
 //    
 //    func body() throws -> Data?
-//    func request(usingHttpService service: BKHttpService) throws -> DataRequest
+//    func request(usingHttpService service: KernelSwiftHttpService) throws -> DataRequest
 //}
 //
-//extension BKHttpRouter {
+//extension KernelSwiftHttpRouter {
 //    var parameters: Parameters? { return nil }
 //    func body() throws -> Data? { return nil }
 //    
@@ -34,7 +34,7 @@ import Foundation
 //        return request
 //    }
 //    
-//    public func request(usingHttpService service: BKHttpService) throws -> DataRequest {
+//    public func request(usingHttpService service: KernelSwiftHttpService) throws -> DataRequest {
 //        return try service.request(asURLRequest())
 //    }
 //}

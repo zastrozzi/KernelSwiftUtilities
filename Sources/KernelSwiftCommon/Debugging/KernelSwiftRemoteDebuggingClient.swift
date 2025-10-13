@@ -8,8 +8,8 @@
 import Foundation
 //import AppSpectorSDK
 
-public final class BKRemoteDebuggingClient {
-    fileprivate var appSpectorMonitors: Set<BKAppSpectorMonitor> = []
+public final class KernelSwiftRemoteDebuggingClient {
+    fileprivate var appSpectorMonitors: Set<KernelSwiftAppSpectorMonitor> = []
     fileprivate var appSpectorAPIKey: String = ""
 //    fileprivate var appSpectorConfig: AppSpectorConfig? = nil
     
@@ -17,7 +17,7 @@ public final class BKRemoteDebuggingClient {
     
     public init() {}
     
-    public func initializeAppSpector(initialMonitors: Set<BKAppSpectorMonitor>) throws {
+    public func initializeAppSpector(initialMonitors: Set<KernelSwiftAppSpectorMonitor>) throws {
 //        stopAppSpector()
 //        setAppSpectorAPIKeyFromPList()
 //        setAppSpectorMonitors(initialMonitors)
@@ -34,7 +34,7 @@ public final class BKRemoteDebuggingClient {
     
     public func startAppSpector() throws {
         if isAppSpectorRunning { stopAppSpector() }
-//        guard let config = appSpectorConfig else { throw BKRemoteDebuggingError.noAppSpectorConfig }
+//        guard let config = appSpectorConfig else { throw KernelSwiftRemoteDebuggingError.noAppSpectorConfig }
 //        AppSpector.run(with: config)
         return
     }
@@ -52,8 +52,8 @@ public final class BKRemoteDebuggingClient {
     }
     
     private func createAppSpectorConfig() throws {
-        guard !appSpectorAPIKey.isEmpty else { throw BKRemoteDebuggingError.noAppSpectorKey }
-        guard !appSpectorMonitors.isEmpty else { throw BKRemoteDebuggingError.noAppSpectorMonitors }
+        guard !appSpectorAPIKey.isEmpty else { throw KernelSwiftRemoteDebuggingError.noAppSpectorKey }
+        guard !appSpectorMonitors.isEmpty else { throw KernelSwiftRemoteDebuggingError.noAppSpectorMonitors }
 //        appSpectorConfig = AppSpectorConfig(apiKey: appSpectorAPIKey, monitorIDs: .init(appSpectorMonitors.unique().map { $0.asAppSpectorMonitor }))
         return
     }
@@ -65,13 +65,13 @@ public final class BKRemoteDebuggingClient {
         return
     }
     
-    private func setAppSpectorMonitors(_ monitors: Set<BKAppSpectorMonitor>) {
+    private func setAppSpectorMonitors(_ monitors: Set<KernelSwiftAppSpectorMonitor>) {
         appSpectorMonitors = monitors
         return
     }
 }
 
-extension BKRemoteDebuggingClient {
+extension KernelSwiftRemoteDebuggingClient {
     fileprivate struct PListConfig: Codable {
         let appspector_api_key: String
     }
@@ -80,31 +80,31 @@ extension BKRemoteDebuggingClient {
         guard
             let plistURL = Bundle.main.url(forResource: "KernelSwiftUtilities", withExtension: "plist"),
             let plistData = try? Data(contentsOf: plistURL)
-        else { preconditionFailure("[BKRemoteDebuggingClient] Failed to find KernelSwiftUtilities Property List.")}
+        else { preconditionFailure("[KernelSwiftRemoteDebuggingClient] Failed to find KernelSwiftUtilities Property List.")}
         
         guard
             let plistDecoded: PListConfig = try? propertyListDecoder.decode(PListConfig.self, from: plistData)
-        else { preconditionFailure("[BKRemoteDebuggingClient] Failed to decode KernelSwiftUtilities Property List.")}
+        else { preconditionFailure("[KernelSwiftRemoteDebuggingClient] Failed to decode KernelSwiftUtilities Property List.")}
         
         return plistDecoded
     }
 }
 
-public enum BKAppSpectorMonitor: String, CaseIterable {
-    case screenshot = "[BKAppspectorMonitor] Screenshot"
-    case sqlite  = "[BKAppspectorMonitor] SQLite"
-    case http  = "[BKAppspectorMonitor] HTTP"
-    case coredata  = "[BKAppspectorMonitor] CoreData"
-    case performance  = "[BKAppspectorMonitor] Performance"
-    case logs  = "[BKAppspectorMonitor] Logs"
-    case location  = "[BKAppspectorMonitor] Location"
-    case environment  = "[BKAppspectorMonitor] Environment"
-    case notifications  = "[BKAppspectorMonitor] Notifications"
-    case analytics  = "[BKAppspectorMonitor] Analytics"
-    case userdefaults  = "[BKAppspectorMonitor] UserDefaults"
-    case commands  = "[BKAppspectorMonitor] Commands"
-    case customEvents  = "[BKAppspectorMonitor] CustomEvents"
-    case fileSystem  = "[BKAppspectorMonitor] FileSystem"
+public enum KernelSwiftAppSpectorMonitor: String, CaseIterable {
+    case screenshot = "[KernelSwiftAppspectorMonitor] Screenshot"
+    case sqlite  = "[KernelSwiftAppspectorMonitor] SQLite"
+    case http  = "[KernelSwiftAppspectorMonitor] HTTP"
+    case coredata  = "[KernelSwiftAppspectorMonitor] CoreData"
+    case performance  = "[KernelSwiftAppspectorMonitor] Performance"
+    case logs  = "[KernelSwiftAppspectorMonitor] Logs"
+    case location  = "[KernelSwiftAppspectorMonitor] Location"
+    case environment  = "[KernelSwiftAppspectorMonitor] Environment"
+    case notifications  = "[KernelSwiftAppspectorMonitor] Notifications"
+    case analytics  = "[KernelSwiftAppspectorMonitor] Analytics"
+    case userdefaults  = "[KernelSwiftAppspectorMonitor] UserDefaults"
+    case commands  = "[KernelSwiftAppspectorMonitor] Commands"
+    case customEvents  = "[KernelSwiftAppspectorMonitor] CustomEvents"
+    case fileSystem  = "[KernelSwiftAppspectorMonitor] FileSystem"
     
 //    var asAppSpectorMonitor: Monitor {
 //        switch self {
@@ -126,14 +126,14 @@ public enum BKAppSpectorMonitor: String, CaseIterable {
 //    }
 }
 
-public enum BKRemoteDebuggingError: Error {
+public enum KernelSwiftRemoteDebuggingError: Error {
     case noAppSpectorKey
     case noAppSpectorMonitors
     case noAppSpectorConfig
     case appSpectorAlreadyRunning
 }
 
-extension BKRemoteDebuggingError: LocalizedError {
+extension KernelSwiftRemoteDebuggingError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .noAppSpectorKey: return "No AppSpector API Key found"

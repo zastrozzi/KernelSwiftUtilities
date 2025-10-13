@@ -9,7 +9,7 @@ import Foundation
 import KernelSwiftCommon
 
 @available(*, deprecated)
-open class BKApplication {
+open class KernelSwiftApplication {
     public let name: String
     public let packageName: String
     public let version: String
@@ -28,7 +28,7 @@ open class BKApplication {
 }
 
 @available(*, deprecated)
-extension BKApplication: Printable {
+extension KernelSwiftApplication: Printable {
     public var  debugDescription: String {
         return "\(name) v\(version) (\(packageName)"
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 @available(*, deprecated)
-public struct CustomHeader: BKHttpHeader {
+public struct CustomHeader: KernelSwiftHttpHeader {
     public let key: String
     public let value: String?
 

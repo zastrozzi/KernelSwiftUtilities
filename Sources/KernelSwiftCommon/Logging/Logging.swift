@@ -10,5 +10,5 @@
 //
 //extension Logger {
 //    static var hostAppSubsystem = Bundle.main.bundleIdentifier!
-//    public static let bkSwiftAppUtilities = Logger(subsystem: hostAppSubsystem, category: "BKSwiftAppUtilities")
+//    public static let kernelSwiftAppUtilities = Logger(subsystem: hostAppSubsystem, category: "KernelSwiftAppUtilities")
 //}

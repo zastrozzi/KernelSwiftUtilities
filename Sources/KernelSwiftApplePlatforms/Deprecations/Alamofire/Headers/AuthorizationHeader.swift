@@ -8,7 +8,7 @@
 import Foundation
 
 @available(*, deprecated)
-public struct AuthorizationHeader: BKHttpHeader {
+public struct AuthorizationHeader: KernelSwiftHttpHeader {
     public let key = HeaderType.authorization.rawValue
     public let value: String?
 

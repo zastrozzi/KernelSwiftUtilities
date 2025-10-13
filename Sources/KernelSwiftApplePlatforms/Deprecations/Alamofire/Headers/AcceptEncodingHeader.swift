@@ -8,7 +8,7 @@
 import Foundation
 
 @available(*, deprecated)
-public struct AcceptEncodingHeader: BKHttpHeader {
+public struct AcceptEncodingHeader: KernelSwiftHttpHeader {
     public let key = HeaderType.acceptEncoding.rawValue
     public let value: String?
 

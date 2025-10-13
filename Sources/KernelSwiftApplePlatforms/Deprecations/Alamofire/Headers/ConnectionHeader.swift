@@ -8,7 +8,7 @@
 import Foundation
 
 @available(*, deprecated)
-public struct ConnectionHeader: BKHttpHeader {
+public struct ConnectionHeader: KernelSwiftHttpHeader {
     public let key = HeaderType.connection.rawValue
     public let value: String?
 

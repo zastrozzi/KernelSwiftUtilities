@@ -8,14 +8,14 @@
 import Foundation
 
 @available(*, deprecated)
-public protocol BKHttpService {
+public protocol KernelSwiftHttpService {
     var sessionManager: URLSession { get set }
     func request(_ urlRequest: URLRequest) -> URLSessionDataTask
     func isConnectedToInternet() -> Bool
 }
 
 @available(*, deprecated)
-final class BKDefaultHttpService: BKHttpService {
+final class KernelSwiftDefaultHttpService: KernelSwiftHttpService {
 
     init(rootQueueLabel: String) {
         let rootQueue = DispatchQueue(label: rootQueueLabel)

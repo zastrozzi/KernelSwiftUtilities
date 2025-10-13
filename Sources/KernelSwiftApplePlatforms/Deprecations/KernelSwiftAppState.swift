@@ -8,6 +8,6 @@
 import Foundation
 
 @available(*, deprecated)
-public protocol BKAppState: Equatable {
+public protocol KernelSwiftAppState: Equatable {
     static func initialize() -> Self
 }

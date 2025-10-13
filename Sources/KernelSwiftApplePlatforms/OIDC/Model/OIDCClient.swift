@@ -129,7 +129,7 @@ extension KernelAppUtils.OIDC {
                 queryItems.append(.oidc(.grantType, OIDCGrantType.authorizationCode.rawValue))
             }
             components.queryItems = queryItems
-//            let headers: BKHttpHeaders = [ContentTypeHeader("application/x-www-form-urlencoded")]
+//            let headers: KernelSwiftHttpHeaders = [ContentTypeHeader("application/x-www-form-urlencoded")]
             var req = URLRequest(url: .init(string: tokenEndpoint)!)
 //            var request = try URLRequest(url: tokenEndpoint, method: .post, headers: headers.forAlamofire())
             req.httpMethod = "POST"

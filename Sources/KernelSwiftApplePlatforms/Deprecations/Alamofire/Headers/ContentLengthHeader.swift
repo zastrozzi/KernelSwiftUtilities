@@ -8,7 +8,7 @@
 import Foundation
 
 @available(*, deprecated)
-public struct ContentLengthHeader: BKHttpHeader {
+public struct ContentLengthHeader: KernelSwiftHttpHeader {
     public let key = HeaderType.contentLength.rawValue
     public let value: String?
 
