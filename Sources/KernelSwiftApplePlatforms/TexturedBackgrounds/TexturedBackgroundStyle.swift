@@ -54,11 +54,11 @@ public struct TexturedBackgroundStyleViewModifier<BackgroundShape: Shape>: ViewM
 //#Preview {
 //    VStack(spacing: 5) {
 //        HStack {
-//            Text("Heading").font(BKFont.init(size: 20, weight: .semibold).textFont).baselineOffset(1)
+//            Text("Heading").font(KernelSwiftFont.init(size: 20, weight: .semibold).textFont).baselineOffset(1)
 //            Spacer()
 //        }
 //        Text("The above is arguably both a demonstration of just how powerful SwiftUI is once we dive a bit deeper into its layout system, but also how its highly declarative nature can sometimes act as an obstacle when we’re looking to write UI code that’s slightly more interconnected than the average view hierarchy.")
-//            .font(BKFont.init(size: 14, weight: .regular).textFont)
+//            .font(KernelSwiftFont.init(size: 14, weight: .regular).textFont)
 //    }
 //    .foregroundStyle(.white)
 //    .padding()

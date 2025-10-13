@@ -80,7 +80,7 @@ public struct BinaryInputOptionView: View {
                 Image(systemName: item.image)
                     .symbolRenderingMode(.hierarchical)
                     .foregroundStyle(item.iconColor)
-                    .font(BKFont(size: 25, weight: .medium).iconFont)
+                    .font(KernelSwiftFont(size: 25, weight: .medium).iconFont)
                 Text(item.title).foregroundStyle(item.labelColor).fontWeight(.medium)
                 Spacer()
             }.padding(8).background(Color.quaternarySystemFill).clipShape(.rect(cornerRadius: 20, style: .continuous))

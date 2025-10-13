@@ -9,10 +9,10 @@ import Foundation
 
 #if os(iOS)
 import UIKit
-public typealias BKTextContentType = UITextContentType
+public typealias KernelSwiftTextContentType = UITextContentType
 #endif
 
 #if os(macOS)
 import AppKit
-public typealias BKTextContentType = NSTextContentType
+public typealias KernelSwiftTextContentType = NSTextContentType
 #endif

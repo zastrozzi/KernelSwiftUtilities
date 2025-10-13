@@ -11,8 +11,8 @@ import Charts
 
 extension View {
     public func environmentStyle(
-        _ role: BKColorSchemeItem.StyleRole,
-        _ layer: BKColorSchemeItem.StyleLayer = .foreground,
+        _ role: KernelSwiftColorSchemeItem.StyleRole,
+        _ layer: KernelSwiftColorSchemeItem.StyleLayer = .foreground,
         defaultOpacity: Bool = true
     ) -> some View {
         ModifiedContent(content: self, modifier: EnvironmentStyleViewModifier(role: role, layer: layer, defaultOpacity: defaultOpacity))
@@ -26,11 +26,11 @@ public struct EnvironmentStyleViewModifier: ViewModifier {
     @Environment(\.foregroundQuaternary)    private var foregroundQuaternary
     @Environment(\.foregroundQuinary)       private var foregroundQuinary
     
-    private var role: BKColorSchemeItem.StyleRole
-    private var layer: BKColorSchemeItem.StyleLayer
+    private var role: KernelSwiftColorSchemeItem.StyleRole
+    private var layer: KernelSwiftColorSchemeItem.StyleLayer
     private var defaultOpacity: Bool
     
-    public init(role: BKColorSchemeItem.StyleRole, layer: BKColorSchemeItem.StyleLayer, defaultOpacity: Bool = true) {
+    public init(role: KernelSwiftColorSchemeItem.StyleRole, layer: KernelSwiftColorSchemeItem.StyleLayer, defaultOpacity: Bool = true) {
         self.role = role
         self.layer = layer
         self.defaultOpacity = defaultOpacity

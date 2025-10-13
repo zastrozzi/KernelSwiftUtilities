@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public enum BKFontWeight {
+public enum KernelSwiftFontWeight {
     case ultraLight
     case thin
     case light
@@ -48,6 +48,23 @@ public enum BKFontWeight {
         case .bold: return .bold
         case .heavy: return .heavy
         case .black: return .black
+        }
+    }
+    #endif
+    
+    #if os(macOS)
+    var nsFontWeight: NSFont.Weight {
+        switch self {
+        case .ultraLight: .ultraLight
+        case .thin: .thin
+        case .light: .light
+        case .regular: .regular
+        case .book: .regular
+        case .medium: .medium
+        case .semibold: .semibold
+        case .bold: .bold
+        case .heavy: .heavy
+        case .black: .black
         }
     }
     #endif

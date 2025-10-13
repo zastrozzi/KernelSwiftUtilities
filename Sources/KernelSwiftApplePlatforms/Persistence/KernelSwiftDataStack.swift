@@ -8,9 +8,7 @@
 import Foundation
 import SwiftData
 
-public struct BKSwiftDataDirectory {
-    
-    
+public struct KernelSwiftDataDirectory {
     public var directory: FileManager.SearchPathDirectory
     public var domainMask: FileManager.SearchPathDomainMask
     public var version: UInt
@@ -37,7 +35,7 @@ public struct BKSwiftDataDirectory {
     }
     
     public func dbFileURL() throws -> URL {
-        guard let url = FileManager.default.urls(for: directory, in: domainMask).first?.appendingPathComponent(subpathToDB) else { throw BKSwiftDataError.badURL }
+        guard let url = FileManager.default.urls(for: directory, in: domainMask).first?.appendingPathComponent(subpathToDB) else { throw KernelSwiftDataError.badURL }
         return url
     }
     
@@ -45,25 +43,25 @@ public struct BKSwiftDataDirectory {
 }
 
 @available(iOS 17, macOS 14.0, *)
-public struct BKSwiftDataConfig {
+public struct KernelSwiftDataConfig {
     public init(
         schema: Schema,
-        directory: BKSwiftDataDirectory
+        directory: KernelSwiftDataDirectory
     ) {
         self.schema = schema
         self.directory = directory
     }
     
     public var schema: Schema
-    public var directory: BKSwiftDataDirectory
+    public var directory: KernelSwiftDataDirectory
 }
 
 @available(iOS 17, macOS 14.0, *)
-public struct BKSwiftDataStack: BKPersistentStore {
-//    private var container: ModelContainer
-//    private var context: ModelContext
+public struct KernelSwiftDataStack: KernelSwiftPersistenceStore {
+    public var modelContainer: ModelContainer
+    public var defaultModelContext: ModelContext
     
-    public init(schema: Schema, _ configs: [BKSwiftDataConfig]) throws {
+    public init(schema: Schema, _ configs: [KernelSwiftDataConfig]) throws {
         var configurations: [ModelConfiguration] = []
 //        configurations.append(.init(schema: schema))
         configurations.append(contentsOf: try configs.map {
@@ -72,9 +70,6 @@ public struct BKSwiftDataStack: BKPersistentStore {
         modelContainer = try .init(for: schema, configurations: configurations)
         defaultModelContext = .init(modelContainer)
     }
-    
-    public var modelContainer: ModelContainer
-    public var defaultModelContext: ModelContext
     
     public func modelContext(for configName: String) -> ModelContext {
         guard let config = modelContainer.configurations.first(where: { $0.name == configName }) else { preconditionFailure() }
@@ -88,7 +83,7 @@ public struct BKSwiftDataStack: BKPersistentStore {
 }
 
 
-public enum BKSwiftDataError: Error {
+public enum KernelSwiftDataError: Error {
     case badURL
     case noAppState
     case noPersistentState
@@ -100,18 +95,18 @@ public enum BKSwiftDataError: Error {
     case noSettingRemoteDebuggingClient
 }
 
-extension BKSwiftDataError: LocalizedError {
+extension KernelSwiftDataError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .badURL: return "[BKSwiftData] Bad URL"
-        case .noAppState: return "[BKDIContainer] No App State"
-        case .noPersistentState: return "[BKDIContainer] No Persistent State"
-        case .noHTTPService: return "[BKDIContainer] No HTTP Service"
-        case .noRemoteDebuggingClient: return "[BKDIContainer] No Remote Debugging Client"
-        case .noSettingAppState: return "[BKDIContainer] App State cannot be altered from outside of initialize method"
-        case .noSettingPersistentState: return "[BKDIContainer] Persistent State cannot be altered from outside of initialize method"
-        case .noSettingHTTPService: return "[BKDIContainer] HTTP Service cannot be altered from outside of initialize method"
-        case .noSettingRemoteDebuggingClient: return "[BKDIContainer] Remote Debugging Client cannot be altered from outside of initialize method"
+        case .badURL: return "[KernelSwiftData] Bad URL"
+        case .noAppState: return "[KernelDIContainer] No App State"
+        case .noPersistentState: return "[KernelDIContainer] No Persistent State"
+        case .noHTTPService: return "[KernelDIContainer] No HTTP Service"
+        case .noRemoteDebuggingClient: return "[KernelDIContainer] No Remote Debugging Client"
+        case .noSettingAppState: return "[KernelDIContainer] App State cannot be altered from outside of initialize method"
+        case .noSettingPersistentState: return "[KernelDIContainer] Persistent State cannot be altered from outside of initialize method"
+        case .noSettingHTTPService: return "[KernelDIContainer] HTTP Service cannot be altered from outside of initialize method"
+        case .noSettingRemoteDebuggingClient: return "[KernelDIContainer] Remote Debugging Client cannot be altered from outside of initialize method"
         }
     }
 }

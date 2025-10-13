@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-public struct BKFont {
+public struct KernelSwiftFont {
     public let customFontFamilyName: String?
     public let size: CGFloat
-    public let weight: BKFontWeight
+    public let weight: KernelSwiftFontWeight
     public let design: Font.Design
     public let textStyle: Font.TextStyle?
     
-    public init(size: CGFloat, weight: BKFontWeight, design: Font.Design = .default, relativeTo textStyle: Font.TextStyle? = nil) {
+    public init(size: CGFloat, weight: KernelSwiftFontWeight, design: Font.Design = .default, relativeTo textStyle: Font.TextStyle? = nil) {
         self.customFontFamilyName = nil
         self.size = size
         self.weight = weight
@@ -23,7 +23,7 @@ public struct BKFont {
         self.textStyle = textStyle
     }
     
-    public init(customFontFamilyName: String, size: CGFloat, weight: BKFontWeight, design: Font.Design = .default, relativeTo textStyle: Font.TextStyle? = nil) {
+    public init(customFontFamilyName: String, size: CGFloat, weight: KernelSwiftFontWeight, design: Font.Design = .default, relativeTo textStyle: Font.TextStyle? = nil) {
         self.customFontFamilyName = customFontFamilyName
         self.size = size
         self.weight = weight

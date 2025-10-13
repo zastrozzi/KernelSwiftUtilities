@@ -16,8 +16,8 @@ public enum InteractionFlowInputType {
     case textField(
         fieldLabel: String,
         placeholder: String? = nil,
-        contentType: BKTextContentType? = nil,
-        keyboardType: BKKeyboardType = .default,
+        contentType: KernelSwiftTextContentType? = nil,
+        keyboardType: KernelSwiftKeyboardType = .default,
         allowed: CharacterSet? = nil,
         disallowed: CharacterSet? = nil,
         formatter: Formatter? = nil
@@ -34,8 +34,8 @@ public struct _InteractionFlowInputType<CustomView: View> {
     var iconChips: [any IconChipRepresentable]?
     
     var textFieldPlaceholder: String?
-    var textFieldContentType: BKTextContentType?
-    var textFieldKeyboardType: BKKeyboardType?
+    var textFieldContentType: KernelSwiftTextContentType?
+    var textFieldKeyboardType: KernelSwiftKeyboardType?
     var textFieldAllowed: CharacterSet?
     var textFieldDisallowed: CharacterSet?
     var textFieldFormatter: Formatter?
@@ -47,8 +47,8 @@ public struct _InteractionFlowInputType<CustomView: View> {
         binaryChoices: [any BinaryInputRepresentable]? = nil,
         iconChips: [any IconChipRepresentable]? = nil,
         textFieldPlaceholder: String? = nil,
-        textFieldContentType: BKTextContentType? = nil,
-        textFieldKeyboardType: BKKeyboardType? = nil,
+        textFieldContentType: KernelSwiftTextContentType? = nil,
+        textFieldKeyboardType: KernelSwiftKeyboardType? = nil,
         textFieldAllowed: CharacterSet? = nil,
         textFieldDisallowed: CharacterSet? = nil,
         textFieldFormatter: Formatter? = nil,
@@ -85,8 +85,8 @@ public struct _InteractionFlowInputType<CustomView: View> {
     public static func textField(
         fieldLabel: String,
         placeholder: String? = nil,
-        contentType: BKTextContentType? = nil,
-        keyboardType: BKKeyboardType = .default,
+        contentType: KernelSwiftTextContentType? = nil,
+        keyboardType: KernelSwiftKeyboardType = .default,
         allowed: CharacterSet? = nil,
         disallowed: CharacterSet? = nil,
         formatter: Formatter? = nil

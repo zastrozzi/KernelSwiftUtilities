@@ -10,9 +10,9 @@ import SwiftUI
 
 extension View {
     public func colorSchemeBlended(
-        _ styleLayer: BKColorSchemeItem.StyleLayer,
-        _ role: BKColorSchemeItem.StyleRole = .primary,
-        _ adjustment: BKColorSchemeItem.StyleAdjustment = .lightness,
+        _ styleLayer: KernelSwiftColorSchemeItem.StyleLayer,
+        _ role: KernelSwiftColorSchemeItem.StyleRole = .primary,
+        _ adjustment: KernelSwiftColorSchemeItem.StyleAdjustment = .lightness,
         color: Color,
         withGradient: Bool = false,
         amount: Int
@@ -26,7 +26,7 @@ extension View {
 
 
 
-public struct BKColorSchemeItem {
+public struct KernelSwiftColorSchemeItem {
     public var color: Color
     public var role: StyleRole
     public var adjustment: StyleAdjustment
@@ -54,17 +54,17 @@ public struct BKColorSchemeItem {
 public struct ColorBlendedViewModifier: ViewModifier {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
-    var styleLayer: BKColorSchemeItem.StyleLayer
-    var styleRole: BKColorSchemeItem.StyleRole
-    var styleAdjustment: BKColorSchemeItem.StyleAdjustment
+    var styleLayer: KernelSwiftColorSchemeItem.StyleLayer
+    var styleRole: KernelSwiftColorSchemeItem.StyleRole
+    var styleAdjustment: KernelSwiftColorSchemeItem.StyleAdjustment
     var color: Color
     var amount: Int
     var gradient: Bool
     
     public init(
-        styleLayer: BKColorSchemeItem.StyleLayer,
-        styleRole: BKColorSchemeItem.StyleRole,
-        styleAdjustment: BKColorSchemeItem.StyleAdjustment,
+        styleLayer: KernelSwiftColorSchemeItem.StyleLayer,
+        styleRole: KernelSwiftColorSchemeItem.StyleRole,
+        styleAdjustment: KernelSwiftColorSchemeItem.StyleAdjustment,
         color: Color,
         gradient: Bool,
         amount: Int
@@ -117,7 +117,7 @@ public struct ColorBlendedViewModifier: ViewModifier {
     }
 }
 
-extension BKColorSchemeItem {
+extension KernelSwiftColorSchemeItem {
     public enum StyleLayer {
         case foreground
         case background

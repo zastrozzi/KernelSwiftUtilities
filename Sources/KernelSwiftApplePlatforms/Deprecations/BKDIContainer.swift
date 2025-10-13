@@ -14,7 +14,7 @@ import KernelSwiftCommon
 public protocol BKDIContainer: EnvironmentKey {
     associatedtype State: BKAppState
     var _appState: StateStore<State>? { get set }
-    var _persistentState: BKPersistentStore? { get set }
+    var _persistentState: KernelSwiftPersistenceStore? { get set }
     var _httpService: BKHttpService? { get set }
     var _remoteDebuggingClient: BKRemoteDebuggingClient? { get set }
 }
@@ -24,7 +24,7 @@ public extension BKDIContainer {
     @available(*, deprecated)
     mutating func initialize<S: BKAppState>(
         state: StateStore<S>,
-        persisent: BKPersistentStore,
+        persisent: KernelSwiftPersistenceStore,
         http: BKHttpService,
         isDebugging: Bool = false,
         debuggingMonitors: Set<BKAppSpectorMonitor>
@@ -46,7 +46,7 @@ public extension BKDIContainer {
         set { preconditionFailure(BKDIContainerError.noSettingAppState.localizedDescription) }
     }
     
-    var persistentState: BKPersistentStore {
+    var persistentState: KernelSwiftPersistenceStore {
         get {
             guard _persistentState != nil else { preconditionFailure(BKDIContainerError.noPersistentState.localizedDescription) }
             return _persistentState!

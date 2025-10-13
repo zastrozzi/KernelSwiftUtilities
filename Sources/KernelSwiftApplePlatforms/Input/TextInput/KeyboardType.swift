@@ -9,11 +9,11 @@ import Foundation
 
 #if os(iOS)
 import UIKit
-public typealias BKKeyboardType = UIKeyboardType
+public typealias KernelSwiftKeyboardType = UIKeyboardType
 #endif
 
 #if os(macOS)
-public enum BKKeyboardType: Int, @unchecked Sendable {
+public enum KernelSwiftKeyboardType: Int, @unchecked Sendable {
     case `default` = 0 // Default type for the current input method.
     case asciiCapable = 1 // Displays a keyboard which can enter ASCII characters
     case numbersAndPunctuation = 2 // Numbers and assorted punctuation.
@@ -26,6 +26,6 @@ public enum BKKeyboardType: Int, @unchecked Sendable {
     case twitter = 9 // A type optimized for twitter text entry (easy access to @ #)
     case webSearch = 10 // A default keyboard type with URL-oriented addition (shows space . prominently).
     case asciiCapableNumberPad = 11 // A number pad (0-9) that will always be ASCII digits.
-    public static var alphabet: BKKeyboardType { .default }
+    public static var alphabet: KernelSwiftKeyboardType { .default }
 }
 #endif

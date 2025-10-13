@@ -31,7 +31,7 @@ public struct SFSymbolTexturedBackgroundView<BackgroundShape: Shape>: View {
                     let repeats = width / height
                     let diameter = max(50, (height * 0.375))
                     Image(systemName: iconName)
-                        .font(BKFont.init(size: Double(diameter), weight: .bold).iconFont)
+                        .font(KernelSwiftFont.init(size: Double(diameter), weight: .bold).iconFont)
                         .frame(width: diameter, height: diameter)
                         .rotationEffect(.degrees(-15))
                         .position(x: width * 0.65, y: height * 0.6)

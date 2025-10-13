@@ -10,7 +10,7 @@ import SwiftUI
 
 extension View {
     
-    public func environmentColorScheme(_ items: BKColorSchemeItem...) -> some View {
+    public func environmentColorScheme(_ items: KernelSwiftColorSchemeItem...) -> some View {
         ModifiedContent(content: self, modifier: EnvironmentColorSchemeViewModifier(items: items))
     }
 }
@@ -18,9 +18,9 @@ extension View {
 public struct EnvironmentColorSchemeViewModifier: ViewModifier {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     
-    var schemeItems: [BKColorSchemeItem]
+    var schemeItems: [KernelSwiftColorSchemeItem]
     
-    public init(items: [BKColorSchemeItem]) {
+    public init(items: [KernelSwiftColorSchemeItem]) {
         self.schemeItems = items
     }
     

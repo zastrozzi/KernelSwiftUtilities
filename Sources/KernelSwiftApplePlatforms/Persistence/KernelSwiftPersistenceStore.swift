@@ -11,7 +11,7 @@ import Foundation
 import SwiftData
 import KernelSwiftCommon
 
-public protocol BKPersistentStore {
+public protocol KernelSwiftPersistenceStore {
     typealias DBOperation<Result> = @Sendable (NSManagedObjectContext) throws -> Result
     
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error>
@@ -31,7 +31,7 @@ public protocol BKPersistentStore {
     
 }
 
-extension BKPersistentStore {
+extension KernelSwiftPersistenceStore {
     public func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error> where T : NSFetchRequestResult {
         preconditionFailure("Not implemented")
     }

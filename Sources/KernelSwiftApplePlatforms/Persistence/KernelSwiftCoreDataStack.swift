@@ -11,10 +11,10 @@ import Foundation
 import KernelSwiftCommon
 
 @preconcurrency
-public struct BKCoreDataStack: BKPersistentStore {
+public struct KernelSwiftCoreDataStack: KernelSwiftPersistenceStore {
     private let container: NSPersistentContainer
     private let isStoreLoaded = CurrentValueSubject<Bool, Error>(false)
-    private let backgroundQueue = DispatchQueue(label: "bkcoredata")
+    private let backgroundQueue = DispatchQueue(label: "kernelswift.coredata")
     
     @preconcurrency
     public init(
@@ -154,11 +154,11 @@ public struct BKCoreDataStack: BKPersistentStore {
     
 }
 
-extension BKCoreDataStack.Version {
+extension KernelSwiftCoreDataStack.Version {
     public static var actual: UInt { 1 }
 }
 
-extension BKCoreDataStack {
+extension KernelSwiftCoreDataStack {
     public struct Version {
         private let number: UInt
         private let prefix: String

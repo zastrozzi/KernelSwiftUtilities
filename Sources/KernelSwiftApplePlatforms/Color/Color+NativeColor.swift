@@ -10,14 +10,14 @@ import SwiftUI
 
 #if os(iOS)
 import UIKit
-public typealias BKNativeColor = UIColor
+public typealias KernelSwiftNativeColor = UIColor
 #elseif os(macOS)
 import AppKit
-public typealias BKNativeColor = NSColor
+public typealias KernelSwiftNativeColor = NSColor
 #endif
 
 extension Color {
-    public init(native: BKNativeColor) {
+    public init(native: KernelSwiftNativeColor) {
         self = Color(native)
     }
 }

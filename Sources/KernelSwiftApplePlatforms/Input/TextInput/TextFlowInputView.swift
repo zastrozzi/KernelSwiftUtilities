@@ -16,8 +16,8 @@ public struct TextFlowInputView: View {
     
     let label: String
     let placeholder: String?
-    let contentType: BKTextContentType?
-    let keyboardType: BKKeyboardType
+    let contentType: KernelSwiftTextContentType?
+    let keyboardType: KernelSwiftKeyboardType
     let formatter: Formatter?
     let allowed: CharacterSet?
     let disallowed: CharacterSet?
@@ -32,8 +32,8 @@ public struct TextFlowInputView: View {
         _ label: String,
         value: Binding<String?>,
         placeholder: String? = nil,
-        contentType: BKTextContentType? = nil,
-        keyboardType: BKKeyboardType = .default,
+        contentType: KernelSwiftTextContentType? = nil,
+        keyboardType: KernelSwiftKeyboardType = .default,
         formatter: Formatter? = nil,
         withOnly allowed: CharacterSet? = nil,
         without disallowed: CharacterSet? = nil,
