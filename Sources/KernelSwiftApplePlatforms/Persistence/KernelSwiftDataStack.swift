@@ -8,6 +8,11 @@
 import Foundation
 import SwiftData
 
+public enum KernelSwiftDataStorageLocation: Sendable {
+    case inMemory(modelName: String)
+    case fileSystem(directory: KernelSwiftDataDirectory)
+}
+
 public struct KernelSwiftDataDirectory: Sendable {
     public var directory: FileManager.SearchPathDirectory
     public var domainMask: FileManager.SearchPathDomainMask
@@ -38,22 +43,23 @@ public struct KernelSwiftDataDirectory: Sendable {
         guard let url = FileManager.default.urls(for: directory, in: domainMask).first?.appendingPathComponent(subpathToDB) else { throw KernelSwiftDataError.badURL }
         return url
     }
-    
-    
 }
 
 @available(iOS 17, macOS 14.0, *)
 public struct KernelSwiftDataConfig {
+    public var schema: Schema
+    public var location: KernelSwiftDataStorageLocation
+    public var allowsSave: Bool
+    
     public init(
         schema: Schema,
-        directory: KernelSwiftDataDirectory
+        location: KernelSwiftDataStorageLocation,
+        allowsSave: Bool = true
     ) {
         self.schema = schema
-        self.directory = directory
+        self.location = location
+        self.allowsSave = allowsSave
     }
-    
-    public var schema: Schema
-    public var directory: KernelSwiftDataDirectory
 }
 
 @available(iOS 17, macOS 14.0, *)
@@ -64,9 +70,26 @@ public struct KernelSwiftDataStack: KernelSwiftPersistenceStore {
     public init(schema: Schema, _ configs: [KernelSwiftDataConfig]) throws {
         var configurations: [ModelConfiguration] = []
 //        configurations.append(.init(schema: schema))
-        configurations.append(contentsOf: try configs.map {
-            .init($0.directory.fileName, schema: $0.schema, url: try $0.directory.dbFileURL())
-        })
+        configurations.append(
+            contentsOf: try configs.map {
+                switch $0.location {
+                case let .inMemory(modelName):
+                    .init(
+                        modelName,
+                        schema: $0.schema,
+                        isStoredInMemoryOnly: true,
+                        allowsSave: $0.allowsSave
+                    )
+                case let .fileSystem(directory):
+                    .init(
+                        directory.fileName,
+                        schema: $0.schema,
+                        url: try directory.dbFileURL(),
+                        allowsSave: $0.allowsSave
+                    )
+                }
+            }
+        )
         modelContainer = try .init(for: schema, configurations: configurations)
         defaultModelContext = .init(modelContainer)
     }
