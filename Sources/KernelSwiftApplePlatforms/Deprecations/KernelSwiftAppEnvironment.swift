@@ -60,7 +60,7 @@ public extension KernelSwiftAppEnvironment {
     mutating func bootstrapSwiftData<S: KernelSwiftAppState>(dbSchema: Schema, _ dbConfigs: [KernelSwiftDataConfig], httpRootQueueLabel: String, stateModel: S.Type, isDebugging: Bool = false, debuggingMonitors: Set<KernelSwiftAppSpectorMonitor> = [.logs]) throws {
         let appState = StateStore<S>(stateModel.initialize())
 //        let dbModelVersion = KernelSwiftCoreDataStack.Version(dbModelVersionNumber, prefix: dbModelPrefix)
-        let persisentStore = try KernelSwiftDataStack(schema: dbSchema, dbConfigs)
+        let persisentStore = try KernelSwiftDataStack(schema: dbSchema, configurations: dbConfigs)
         let httpService = KernelSwiftDefaultHttpService(rootQueueLabel: httpRootQueueLabel)
         self.container.initialize(state: appState, persisent: persisentStore, http: httpService, isDebugging: isDebugging, debuggingMonitors: debuggingMonitors)
         self.appEventHandler.connectToContainer(self.container)

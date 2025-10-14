@@ -67,11 +67,14 @@ public struct KernelSwiftDataStack: KernelSwiftPersistenceStore {
     public var modelContainer: ModelContainer
     public var defaultModelContext: ModelContext
     
-    public init(schema: Schema, _ configs: [KernelSwiftDataConfig]) throws {
-        var configurations: [ModelConfiguration] = []
+    public init(
+        schema: Schema,
+        configurations: [KernelSwiftDataConfig]
+    ) throws {
+        var configs: [ModelConfiguration] = []
 //        configurations.append(.init(schema: schema))
-        configurations.append(
-            contentsOf: try configs.map {
+        configs.append(
+            contentsOf: try configurations.map {
                 switch $0.location {
                 case let .inMemory(modelName):
                     .init(
@@ -90,7 +93,7 @@ public struct KernelSwiftDataStack: KernelSwiftPersistenceStore {
                 }
             }
         )
-        modelContainer = try .init(for: schema, configurations: configurations)
+        modelContainer = try .init(for: schema, configurations: configs)
         defaultModelContext = .init(modelContainer)
     }
     
