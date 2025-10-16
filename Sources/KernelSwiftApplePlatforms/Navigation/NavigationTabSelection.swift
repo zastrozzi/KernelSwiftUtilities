@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public protocol NavigationTabSelection: RawRepresentable, Identifiable, Codable, Equatable, Hashable, CaseIterable where RawValue == String {
+public protocol NavigationTabSelection: RawRepresentable, Identifiable, Codable, Equatable, Hashable, CaseIterable, Sendable where RawValue == String {
     var title: String { get }
     var systemImage: String { get }
 }
