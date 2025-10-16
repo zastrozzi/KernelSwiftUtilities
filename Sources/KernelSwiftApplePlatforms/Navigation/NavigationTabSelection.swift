@@ -19,7 +19,7 @@ extension NavigationTabSelection {
 
 @available(iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
 extension Tab {
-    nonisolated public init(value: Value, @ViewBuilder content: () -> Content) where Content: View, Label == DefaultTabLabel, Value: NavigationTabSelection {
-        self.init(value.title, systemImage: value.systemImage, value: value, content: content)
+    nonisolated public init(tabSelection: Value, @ViewBuilder content: () -> Content) where Content: View, Label == DefaultTabLabel, Value: NavigationTabSelection {
+        self.init(tabSelection.title, systemImage: tabSelection.systemImage, value: tabSelection, content: content)
     }
 }
