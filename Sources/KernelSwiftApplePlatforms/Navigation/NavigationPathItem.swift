@@ -7,6 +7,7 @@
 
 import Foundation
 import Collections
+import SwiftUI
 
 public protocol NavigationPathItem: Hashable, Equatable, Identifiable, Sendable where Self.ID == String {}
 
@@ -114,5 +115,22 @@ extension NavigationPathItem {
     
     public func slashComposedID(_ ids: String...) -> String {
         ids.joined(separator: "/")
+    }
+}
+
+public struct FlexibleNavigationPathKey: EnvironmentKey {
+    public static let defaultValue: FlexibleNavigationPath = []
+}
+
+extension EnvironmentValues {
+    public var currentNavigationPath: FlexibleNavigationPath {
+        get { self[FlexibleNavigationPathKey.self] }
+        set { self[FlexibleNavigationPathKey.self] = newValue }
+    }
+}
+
+extension View {
+    public func presentedNavigationPath(_ path: FlexibleNavigationPath) -> some View {
+        environment(\.currentNavigationPath, path)
     }
 }
