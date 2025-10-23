@@ -59,7 +59,38 @@ public struct TypedNavigationPathItem<Item: NavigationPathItem>: Hashable, Ident
     }
 }
 
+public struct WrappedFlexibleNavigationPath: Sendable, Identifiable {
+    public var id: String
+    public var wrappedItem: FlexibleNavigationPath
+    
+    public init(
+        id: String,
+        _ wrappedItem: FlexibleNavigationPath = .init()
+    ) {
+        self.id = id
+        self.wrappedItem = wrappedItem
+    }
+}
+
 public typealias FlexibleNavigationPath = Deque<WrappedNavigationPathItem>
+
+extension WrappedFlexibleNavigationPath {
+    public mutating func append<Item: NavigationPathItem>(_ element: Item) {
+        wrappedItem.append(.init(wrappedItem: element))
+    }
+    
+    public mutating func append(contentsOf collection: any Collection<any NavigationPathItem>) {
+        wrappedItem.append(contentsOf: collection.map { .init(wrappedItem: $0) })
+    }
+    
+    public mutating func prepend<Item: NavigationPathItem>(_ element: Item) {
+        wrappedItem.prepend(.init(wrappedItem: element))
+    }
+    
+    public mutating func prepend(contentsOf collection: any Collection<any NavigationPathItem>) {
+        wrappedItem.prepend(contentsOf: collection.map { .init(wrappedItem: $0) })
+    }
+}
 
 extension FlexibleNavigationPath {
     public mutating func append<Item: NavigationPathItem>(_ element: Item) {
@@ -118,19 +149,19 @@ extension NavigationPathItem {
     }
 }
 
-public struct FlexibleNavigationPathKey: EnvironmentKey {
-    public static let defaultValue: FlexibleNavigationPath = []
+public struct WrappedFlexibleNavigationPathKey: EnvironmentKey {
+    public static let defaultValue: WrappedFlexibleNavigationPath = .init(id: "")
 }
 
 extension EnvironmentValues {
-    public var currentNavigationPath: FlexibleNavigationPath {
-        get { self[FlexibleNavigationPathKey.self] }
-        set { self[FlexibleNavigationPathKey.self] = newValue }
+    public var currentNavigationPath: WrappedFlexibleNavigationPath {
+        get { self[WrappedFlexibleNavigationPathKey.self] }
+        set { self[WrappedFlexibleNavigationPathKey.self] = newValue }
     }
 }
 
 extension View {
-    public func presentedNavigationPath(_ path: FlexibleNavigationPath) -> some View {
+    public func presentedNavigationPath(_ path: WrappedFlexibleNavigationPath) -> some View {
         environment(\.currentNavigationPath, path)
     }
 }
