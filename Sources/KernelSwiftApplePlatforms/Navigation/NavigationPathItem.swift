@@ -59,9 +59,45 @@ public struct TypedNavigationPathItem<Item: NavigationPathItem>: Hashable, Ident
     }
 }
 
-public final class MutableFlexibleNavigationPath: Identifiable, @unchecked Sendable {
+public final class MutableFlexibleNavigationPath: Identifiable, @unchecked Sendable, MutableCollection, RandomAccessCollection, RangeReplaceableCollection {
     public var id: String
     public var path: FlexibleNavigationPath
+
+    // MARK: - Collection Conformances
+    public typealias Element = FlexibleNavigationPath.Element
+    public typealias Index = FlexibleNavigationPath.Index
+
+    // RangeReplaceableCollection requirement
+    public required init() {
+        fatalError("Not implemented")
+//        self.id = ""
+//        self.path = .init()
+    }
+
+    // MutableCollection & RandomAccessCollection core requirements forwarded to `path`
+    public var startIndex: Index { path.startIndex }
+    public var endIndex: Index { path.endIndex }
+
+    public func index(after i: Index) -> Index { path.index(after: i) }
+    public func index(before i: Index) -> Index { path.index(before: i) }
+
+    public subscript(position: Index) -> Element {
+        get { path[position] }
+        set { path[position] = newValue }
+    }
+
+    // RandomAccessCollection optimization (Deque already supports random access)
+    public func distance(from start: Index, to end: Index) -> Int { path.distance(from: start, to: end) }
+    public func index(_ i: Index, offsetBy distance: Int) -> Index { path.index(i, offsetBy: distance) }
+
+    // RangeReplaceableCollection mutators forwarded to `path`
+    public func replaceSubrange<C: Collection>(_ subrange: Range<Index>, with newElements: C) where C.Element == Element {
+        path.replaceSubrange(subrange, with: newElements)
+    }
+
+    public func reserveCapacity(_ n: Int) {
+        path.reserveCapacity(n)
+    }
     
     public init(
         id: String,
@@ -77,14 +113,6 @@ public typealias FlexibleNavigationPath = Deque<WrappedNavigationPathItem>
 extension MutableFlexibleNavigationPath {
     public var count: Int {
         path.count
-    }
-    
-    public var endIndex: Int {
-        path.endIndex
-    }
-    
-    public var startIndex: Int {
-        path.startIndex
     }
     
     public func append<Item: NavigationPathItem>(_ element: Item) {
