@@ -13,7 +13,7 @@ extension KernelAppUtils.CodeScanner {
     public struct ScanResult {
         public let string: String
         public let type: AVMetadataObject.ObjectType
-        public let image: UIImage?
+        public let image: KSNativeImage?
         public let corners: [CGPoint]
     }
 }

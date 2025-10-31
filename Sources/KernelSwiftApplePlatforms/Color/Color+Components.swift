@@ -16,7 +16,7 @@ extension Color {
         var a: CGFloat = 0
         
         #if os(iOS)
-        guard KernelSwiftNativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &a) else { return (0, 0, 0, 0) }
+        guard KSNativeColor(self).getRed(&r, green: &g, blue: &b, alpha: &a) else { return (0, 0, 0, 0) }
         #endif
         return (r, g, b, a)
     }
@@ -28,7 +28,7 @@ extension Color {
         var a: CGFloat = 0
         
         #if os(iOS)
-        guard KernelSwiftNativeColor(self).getHue(&h, saturation: &s, brightness: &b, alpha: &a) else { return (0, 0, 0, 0) }
+        guard KSNativeColor(self).getHue(&h, saturation: &s, brightness: &b, alpha: &a) else { return (0, 0, 0, 0) }
         #endif
         return (h, s, b, a)
     }

@@ -14,20 +14,26 @@ public struct CachedAsyncImage<Content: View>: View {
     
     private let loader: ImageLoader
     private let url: URL
-    private let content: (AsyncImagePhase) -> Content
+    private var transaction: Transaction
+    @ViewBuilder private var content: (AsyncImagePhase) -> Content
     
     public init(
         url: URL,
         loader: ImageLoader = ImageLoaderImpl.shared,
+        transaction: Transaction = Transaction(),
         @ViewBuilder content: @escaping (AsyncImagePhase) -> Content
     ) {
         self.url = url
         self.loader = loader
+        self.transaction = transaction
         self.content = content
     }
     
     public var body: some View {
         content(phase)
+            .transaction { view in
+                view.animation = self.transaction.animation
+            }
             .task {
                 for await phase in loader.load(url: url).values {
                     self.phase = phase
@@ -72,8 +78,8 @@ public class ImageLoaderImpl: ImageLoader, @unchecked Sendable {
                 .shared.dataTaskPublisher(for: url)
             // Map the response to AsyncImagePhase
                 .map({ (data, _) in
-                    if let image = UIImage(data: data) {
-                        return AsyncImagePhase.success(Image(uiImage: image))
+                    if let image = KSNativeImage(data: data) {
+                        return AsyncImagePhase.success(Image(nativeImage: image))
                     } else {
                         return .failure(Error.imageDecodingFailed)
                     }

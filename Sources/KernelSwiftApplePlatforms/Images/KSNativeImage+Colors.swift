@@ -5,25 +5,25 @@
 //  Created by Jonathan Forbes on 20/03/2025.
 //
 
+import Foundation
+
 #if os(macOS)
 import AppKit
-public typealias UIImage = NSImage
-public typealias UIColor = NSColor
 #else
 import UIKit
 #endif
 
-public struct UIImageColors: Sendable {
-    public var background: UIColor
-    public var primary: UIColor
-    public var secondary: UIColor
-    public var detail: UIColor
+public struct KSNativeImageColors: Sendable {
+    public var background: KSNativeColor
+    public var primary: KSNativeColor
+    public var secondary: KSNativeColor
+    public var detail: KSNativeColor
     
     public init(
-        background: UIColor,
-        primary: UIColor,
-        secondary: UIColor,
-        detail: UIColor
+        background: KSNativeColor,
+        primary: KSNativeColor,
+        secondary: KSNativeColor,
+        detail: KSNativeColor
     ) {
         self.background = background
         self.primary = primary
@@ -32,14 +32,14 @@ public struct UIImageColors: Sendable {
     }
 }
 
-public enum UIImageColorsQuality: CGFloat {
+public enum KSNativeImageColorsQuality: CGFloat {
     case lowest = 50
     case low = 100
     case high = 250
     case highest = 0
 }
 
-fileprivate struct UIImageColorsCounter {
+fileprivate struct KSNativeImageColorsCounter {
     let color: Double
     let count: Int
     init(color: Double, count: Int) {
@@ -152,8 +152,8 @@ fileprivate extension Double {
         }
     }
     
-    var uicolor: UIColor {
-        return UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
+    var nativeColor: KSNativeColor {
+        return KSNativeColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
     }
     
     var pretty: String {
@@ -161,7 +161,7 @@ fileprivate extension Double {
     }
 }
 
-public enum UIImageColorError: Error, LocalizedError, CustomStringConvertible {
+public enum KSNativeImageColorError: Error, LocalizedError, CustomStringConvertible {
     case unableToGenerateColors
     
     
@@ -172,14 +172,14 @@ public enum UIImageColorError: Error, LocalizedError, CustomStringConvertible {
         case .unableToGenerateColors: "Unable to generate colors"
         }
         
-        return "UIImageColorError: \(caseDescription)"
+        return "KSNativeImageColorError: \(caseDescription)"
     }
 }
 
 
-extension UIImage {
+extension KSNativeImage {
 #if os(OSX)
-    private func resizeForUIImageColors(newSize: CGSize) -> UIImage? {
+    private func resizeForNativeImageColors(newSize: CGSize) -> KSNativeImage? {
         let frame = CGRect(origin: .zero, size: newSize)
         guard let representation = bestRepresentation(for: frame, context: nil, hints: nil) else {
             return nil
@@ -191,31 +191,31 @@ extension UIImage {
         return result
     }
 #else
-    private func resizeForUIImageColors(newSize: CGSize) -> UIImage? {
+    private func resizeForNativeImageColors(newSize: CGSize) -> KSNativeImage? {
         UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
         defer {
             UIGraphicsEndImageContext()
         }
         self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
         guard let result = UIGraphicsGetImageFromCurrentImageContext() else {
-            fatalError("UIImageColors.resizeForUIImageColors failed: UIGraphicsGetImageFromCurrentImageContext returned nil.")
+            fatalError("KSNativeImageColors.resizeForNativeImageColors failed: UIGraphicsGetImageFromCurrentImageContext returned nil.")
         }
         
         return result
     }
 #endif
     
-    public func getColorsAsync(quality: UIImageColorsQuality = .high) async throws -> UIImageColors {
+    public func getColorsAsync(quality: KSNativeImageColorsQuality = .high) async throws -> KSNativeImageColors {
         return try await withCheckedThrowingContinuation { continuation in
             guard let result = self.getColors(quality: quality) else {
-                continuation.resume(throwing: UIImageColorError.unableToGenerateColors)
+                continuation.resume(throwing: KSNativeImageColorError.unableToGenerateColors)
                 return
             }
             continuation.resume(returning: result)
         }
     }
     
-    public func getColors(quality: UIImageColorsQuality = .high) -> UIImageColors? {
+    public func getColors(quality: KSNativeImageColorsQuality = .high) -> KSNativeImageColors? {
         var scaleDownSize: CGSize = self.size
         if quality != .highest {
             if self.size.width < self.size.height {
@@ -227,7 +227,7 @@ extension UIImage {
             }
         }
         
-        guard let resizedImage = self.resizeForUIImageColors(newSize: scaleDownSize) else { return nil }
+        guard let resizedImage = self.resizeForNativeImageColors(newSize: scaleDownSize) else { return nil }
         
 #if os(OSX)
         guard let cgImage = resizedImage.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
@@ -242,7 +242,7 @@ extension UIImage {
         var proposed: [Double] = [-1,-1,-1,-1]
         
         guard let data = CFDataGetBytePtr(cgImage.dataProvider!.data) else {
-            fatalError("UIImageColors.getColors failed: could not get cgImage data.")
+            fatalError("KSNativeImageColors.getColors failed: could not get cgImage data.")
         }
         
         let imageColors = NSCountedSet(capacity: width*height)
@@ -256,7 +256,7 @@ extension UIImage {
         }
         
         let sortedColorComparator: Comparator = { (main, other) -> ComparisonResult in
-            let m = main as! UIImageColorsCounter, o = other as! UIImageColorsCounter
+            let m = main as! KSNativeImageColorsCounter, o = other as! KSNativeImageColorsCounter
             if m.count < o.count {
                 return .orderedDescending
             } else if m.count == o.count {
@@ -271,21 +271,21 @@ extension UIImage {
         while let K = enumerator.nextObject() as? Double {
             let C = imageColors.count(for: K)
             if threshold < C {
-                sortedColors.add(UIImageColorsCounter(color: K, count: C))
+                sortedColors.add(KSNativeImageColorsCounter(color: K, count: C))
             }
         }
         sortedColors.sort(comparator: sortedColorComparator)
         
-        var proposedEdgeColor: UIImageColorsCounter
+        var proposedEdgeColor: KSNativeImageColorsCounter
         if 0 < sortedColors.count {
-            proposedEdgeColor = sortedColors.object(at: 0) as! UIImageColorsCounter
+            proposedEdgeColor = sortedColors.object(at: 0) as! KSNativeImageColorsCounter
         } else {
-            proposedEdgeColor = UIImageColorsCounter(color: 0, count: 1)
+            proposedEdgeColor = KSNativeImageColorsCounter(color: 0, count: 1)
         }
         
         if proposedEdgeColor.color.isBlackOrWhite && 0 < sortedColors.count {
             for i in 1..<sortedColors.count {
-                let nextProposedEdgeColor = sortedColors.object(at: i) as! UIImageColorsCounter
+                let nextProposedEdgeColor = sortedColors.object(at: i) as! KSNativeImageColorsCounter
                 if Double(nextProposedEdgeColor.count)/Double(proposedEdgeColor.count) > 0.3 {
                     if !nextProposedEdgeColor.color.isBlackOrWhite {
                         proposedEdgeColor = nextProposedEdgeColor
@@ -307,13 +307,13 @@ extension UIImage {
             K = K.with(minSaturation: 0.15)
             if K.isDarkColor == findDarkTextColor {
                 let C = imageColors.count(for: K)
-                sortedColors.add(UIImageColorsCounter(color: K, count: C))
+                sortedColors.add(KSNativeImageColorsCounter(color: K, count: C))
             }
         }
         sortedColors.sort(comparator: sortedColorComparator)
         
         for color in sortedColors {
-            let color = (color as! UIImageColorsCounter).color
+            let color = (color as! KSNativeImageColorsCounter).color
             
             if proposed[1] == -1 {
                 if color.isContrasting(proposed[0]) {
@@ -340,17 +340,17 @@ extension UIImage {
             }
         }
         
-        return UIImageColors(
-            background: proposed[0].uicolor,
-            primary: proposed[1].uicolor,
-            secondary: proposed[2].uicolor,
-            detail: proposed[3].uicolor
+        return KSNativeImageColors(
+            background: proposed[0].nativeColor,
+            primary: proposed[1].nativeColor,
+            secondary: proposed[2].nativeColor,
+            detail: proposed[3].nativeColor
         )
     }
 }
 
-extension UIImage {
-    public var averageColor: UIColor? {
+extension KSNativeImage {
+    public var averageColor: KSNativeColor? {
         #if os(macOS)
         guard
             let tiffRepresentation = self.tiffRepresentation,
@@ -371,6 +371,6 @@ extension UIImage {
         let context = CIContext(options: [.workingColorSpace: kCFNull!])
         context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: .RGBA8, colorSpace: nil)
         
-        return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
+        return KSNativeColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
     }
 }
