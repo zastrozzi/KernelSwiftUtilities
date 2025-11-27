@@ -14,6 +14,7 @@ extension DynamicLaunchScene {
         public var initialDelay: Double
         public var backgroundColor: Color
         public var contentBackgroundColor: Color
+        public var contentBlendMode: BlendMode
         public var scaling: CGFloat
         public var blurRadius: CGFloat
         public var forceHideContent: Bool
@@ -25,6 +26,7 @@ extension DynamicLaunchScene {
             initialDelay: Double = 0.35,
             backgroundColor: Color = .black,
             contentBackgroundColor: Color = .white,
+            contentBlendMode: BlendMode = .normal,
             scaling: CGFloat = 4,
             blurRadius: CGFloat = 15,
             forceHideContent: Bool = true,
@@ -35,6 +37,7 @@ extension DynamicLaunchScene {
             self.initialDelay = initialDelay
             self.backgroundColor = backgroundColor
             self.contentBackgroundColor = contentBackgroundColor
+            self.contentBlendMode = contentBlendMode
             self.scaling = scaling
             self.blurRadius = blurRadius
             self.forceHideContent = forceHideContent

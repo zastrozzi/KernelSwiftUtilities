@@ -30,14 +30,14 @@ extension DynamicLaunchScene {
         public var body: some View {
             Rectangle()
                 .fill(configuration.backgroundColor)
-                .mask {
+                .overlay {
                     GeometryReader {
                         let size = $0.size.applying(.init(scaleX: configuration.scaling, y: configuration.scaling))
                         Rectangle()
                             .overlay {
                                 launchContent()
                                     .blur(radius: configuration.forceHideContent ? 0 : (scaleUp ? configuration.blurRadius : 0))
-                                    .blendMode(.destinationOut)
+                                    .blendMode(configuration.contentBlendMode)
                                     .animation(.smooth(duration: 0.3, extraBounce: 0)) { content in
                                         content
                                             .scaleEffect(scaleDown ? 0.8 : 1)
