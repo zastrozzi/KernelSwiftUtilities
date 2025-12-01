@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public protocol _ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where ArrayLiteralElement == Stage {
+public protocol ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where ArrayLiteralElement == Stage {
     associatedtype Stage: CaseIterable & RawRepresentable & Hashable & Sendable where Stage.RawValue == UInt
     /// Storage for completed stages
     var completed: Set<Stage> { get set }
@@ -21,7 +21,7 @@ public protocol _ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where Ar
 }
 
 // MARK: OptionSet API
-extension _ProgressOptionSet {
+extension ProgressOptionSet {
     public var isEmpty: Bool { completed.isEmpty }
     public var count: Int { completed.count }
     public func contains(_ stage: Stage) -> Bool { completed.contains(stage) }
@@ -82,7 +82,7 @@ extension _ProgressOptionSet {
     public static var empty: Self { Self() }
 }
 
-extension _ProgressOptionSet {
+extension ProgressOptionSet {
     /// Ordered list of single stages from earliest to latest.
     public static var orderedStages: [Stage] {
         Array(Stage.allCases).sorted { $0.rawValue < $1.rawValue }
