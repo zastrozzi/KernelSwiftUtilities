@@ -68,41 +68,22 @@ public struct StrokedBorderProgressViewStyle: ProgressViewStyle {
     
     // MARK: - Body
     public func makeBody(configuration: Configuration) -> some View {
-        if #available(iOS 26.0, macOS 26.0, *) {
-            AnimatableInnerView(
-                tint: tint,
-                dynamicTint: dynamicTint,
-                tintInterpolation: tintInterpolation,
-                lineWidth: lineWidth,
-                cornerRadius: cornerRadius,
-                cornerStyle: cornerStyle,
-                padding: padding,
-                fullWidth: fullWidth,
-                horizontalAlignment: horizontalAlignment,
-                startEdge: startEdge,
-                labelDisplayMode: labelDisplayMode,
-                verb: verb,
-                customBackgroundStyle: customBackgroundStyle,
-                configuration: configuration
-            )
-        }
-        else {
-            FallbackInnerView(
-                tint: tint,
-                dynamicTint: dynamicTint,
-                tintInterpolation: tintInterpolation,
-                lineWidth: lineWidth,
-                cornerRadius: cornerRadius,
-                padding: padding,
-                fullWidth: fullWidth,
-                horizontalAlignment: horizontalAlignment,
-                startEdge: startEdge,
-                labelDisplayMode: labelDisplayMode,
-                verb: verb,
-                customBackgroundStyle: customBackgroundStyle,
-                configuration: configuration
-            )
-        }
+        AnimatableInnerView(
+            tint: tint,
+            dynamicTint: dynamicTint,
+            tintInterpolation: tintInterpolation,
+            lineWidth: lineWidth,
+            cornerRadius: cornerRadius,
+            cornerStyle: cornerStyle,
+            padding: padding,
+            fullWidth: fullWidth,
+            horizontalAlignment: horizontalAlignment,
+            startEdge: startEdge,
+            labelDisplayMode: labelDisplayMode,
+            verb: verb,
+            customBackgroundStyle: customBackgroundStyle,
+            configuration: configuration
+        )
     }
 }
 
