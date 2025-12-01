@@ -6,8 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
 
-@MainActor
 public protocol ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where ArrayLiteralElement == Stage {
     associatedtype Stage: CaseIterable & RawRepresentable & Hashable & Sendable where Stage.RawValue == UInt
     /// Storage for completed stages
@@ -131,5 +131,97 @@ extension ProgressOptionSet {
         guard total > 0 else { return 0.0 }
         let completedCount = completed.intersection(uniqueStages).count
         return Double(completedCount) / Double(total)
+    }
+}
+
+struct LoadingProgress: @MainActor ProgressOptionSet {
+    enum Stage: UInt, CaseIterable, Hashable, Sendable {
+        case loadingPoems
+        case loadedPoems
+        case loadingAuthors
+        case loadedAuthors
+        case loadingCollections
+        case loadedCollections
+    }
+    
+    // Storage for completed stages
+    var completed: Set<Stage> = []
+    // Most recently completed stage
+    var mostRecentStage: Stage? = nil
+    
+    static func label(for stage: Stage) -> String {
+        switch stage {
+        case .loadingPoems: return "Loading Poems"
+        case .loadedPoems: return "Loaded Poems"
+        case .loadingAuthors: return "Loading Authors"
+        case .loadedAuthors: return "Loaded Authors"
+        case .loadingCollections: return "Loading Collections"
+        case .loadedCollections: return "Loaded Collections"
+        }
+    }
+}
+
+struct LoadingProgressExampleView: View {
+    @State private var progress = LoadingProgress.empty
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Last: \(progress.currentLabel.isEmpty ? "" : progress.currentLabel)")
+                .font(.headline)
+            Text("Latest: \(progress.mostRecentLabel.isEmpty ? "" : progress.mostRecentLabel)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            
+            ProgressView(value: progress.currentProgress, total: 1.0)
+                .tint(.accentColor)
+                .animation(.bouncy, value: progress.currentProgress)
+            
+            HStack {
+                Text("\(Int((progress.currentProgress * 100).rounded()))%")
+                    .monospacedDigit()
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button("Advance") { advance() }
+                Button("Reset", role: .destructive) { progress = .empty }
+            }
+            
+            List {
+                ForEach(LoadingProgress.orderedStages, id: \.self) { stage in
+                    Button {
+                        toggle(stage)
+                    } label: {
+                        HStack {
+                            Image(systemName: progress.contains(stage) ? "checkmark.circle.fill" : "circle")
+                                .foregroundStyle(progress.contains(stage) ? .green : .secondary)
+                            Text(LoadingProgress.label(for: stage))
+                        }
+                    }
+                }
+            }
+            .listStyle(.inset)
+            
+        }
+        .padding()
+        .navigationTitle("Loading Progress")
+    }
+    
+    private func toggle(_ stage: LoadingProgress.Stage) {
+        if progress.contains(stage) {
+            progress.remove(stage)
+        } else {
+            progress.insert(stage)
+        }
+    }
+    
+    private func advance() {
+        if let next = LoadingProgress.orderedStages.first(where: { !progress.contains($0) }) {
+            progress.insert(next)
+        }
+    }
+}
+
+#Preview("LoadingProgress Example") {
+    NavigationStack {
+        LoadingProgressExampleView()
     }
 }

@@ -29,6 +29,7 @@ let package = Package(
         .library(name: "KernelSwiftCommon", targets: ["KernelSwiftCommon"]),
 //        .library(name: "VariableBlurEffect", targets: ["VariableBlurEffect"]),
         .library(name: "KernelSwiftApplePlatforms", targets: ["KernelSwiftApplePlatforms"]),
+        .library(name: "KernelSwiftApplePlatformMacros", targets: ["KernelSwiftApplePlatformMacros"]),
         .library(name: "KernelSwiftTerminal", targets: ["KernelSwiftTerminal"]),
         .executable(name: "KSUCryptoX509DemoServer", targets: ["KSUCryptoX509DemoServer"]),
         .executable(name: "KernelOpenAPITester", targets: ["KernelOpenAPITester"])
@@ -57,6 +58,7 @@ let package = Package(
         .package(url: "https://github.com/vapor-community/google-cloud-kit.git", from: "1.0.0-rc.12"),
         .package(url: "https://github.com/vapor-community/wkhtmltopdf.git", from: "4.0.0"),
         .package(url: "https://github.com/marmelroy/PhoneNumberKit", .upToNextMajor(from: "3.4.5")),
+        .package(url: "https://github.com/swiftlang/swift-syntax", from: "602.0.0")
 //        .package(url: "https://github.com/zxingify/zxingify-objc.git", revision: "510db5f6ed293bf2f9e1905d3b8268c502f3fb55")
     ],
     targets: [
@@ -131,6 +133,21 @@ let package = Package(
                 optimiseOnRelease,
                 accessLevelOnImport,
                 retroactiveAttribute
+            ]
+        ),
+        .macro(
+            name: "KernelSwiftApplePlatformMacroDeclarations",
+            dependencies: [
+                .byName(name: "KernelSwiftApplePlatforms"),
+                .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
+            ]
+        ),
+        .target(
+            name: "KernelSwiftApplePlatformMacros",
+            dependencies: [
+                .byName(name: "KernelSwiftApplePlatforms"),
+                .byName(name: "KernelSwiftApplePlatformMacroDeclarations")
             ]
         ),
         .target(
