@@ -26,20 +26,6 @@ extension ProgressOptionSetMacro: MemberMacro {
             
             DeclSyntax(stringLiteral: """
             var mostRecentStage: Stage? = nil
-            """),
-            
-            // Default initializer
-            DeclSyntax(stringLiteral: """
-            init() {}
-            """),
-            
-            // ExpressibleByArrayLiteral initializer
-            DeclSyntax(stringLiteral: """
-            init(arrayLiteral elements: Stage...) {
-                self.init()
-                self.completed = Set(elements)
-                self.mostRecentStage = elements.last
-            }
             """)
         ]
     }

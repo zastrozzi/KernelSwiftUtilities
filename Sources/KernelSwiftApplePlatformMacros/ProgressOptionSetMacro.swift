@@ -7,7 +7,7 @@
 
 import KernelSwiftApplePlatforms
 
-@attached(member, names: named(completed), named(mostRecentStage), named(init), named(init))
+@attached(member, names: named(completed), named(mostRecentStage))
 @attached(peer)
 public macro ProgressOptionSet() = #externalMacro(
     module: "KernelSwiftApplePlatformMacroDeclarations",
