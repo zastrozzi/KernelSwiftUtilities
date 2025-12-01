@@ -2,29 +2,32 @@
 //  File.swift
 //  KernelSwiftUtilities
 //
-//  Created by Jonathan Forbes on 26/11/2025.
+//  Created by Jonathan Forbes on 27/11/2025.
 //
 
 import Foundation
 import SwiftUI
 
 extension DynamicLaunchScene {
-    public struct ScalingLaunchScreenView: View {
+    public struct ProgressBounceLaunchScreenView: View {
         public var configuration: Configuration
         public var launchContent: () -> LaunchContent
         public var isCompleted: () -> ()
         
+        @Binding public var progress: Double
         @State private var scaleDown: Bool = false
         @State private var scaleUp: Bool = false
         
         public init(
             configuration: Configuration,
+            progress: Binding<Double>,
             @ViewBuilder launchContent: @escaping () -> LaunchContent,
             isCompleted: @escaping () -> ()
         ) {
             self.configuration = configuration
             self.launchContent = launchContent
             self.isCompleted = isCompleted
+            self._progress = progress
         }
         
         public var body: some View {

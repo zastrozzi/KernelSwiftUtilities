@@ -10,6 +10,7 @@ import Foundation
 extension DynamicLaunchScene {
     public enum LaunchScreenType {
         case scaling
+        case progressBounce
         case custom
     }
 }
