@@ -71,12 +71,8 @@ extension DynamicLaunchScene {
                                     launchProgress: $launchProgress,
                                     configuration: configuration,
                                     launchContent: launchContent
-                                ) {
-                                    window.isHidden = true
-                                    window.isUserInteractionEnabled = false
-                                }
+                                )
                             )
-                            
                             rootViewController.view.backgroundColor = .clear
                             window.rootViewController = rootViewController
                         default:
@@ -95,6 +91,9 @@ extension DynamicLaunchScene {
                                 print("Loading sequence finished before completion")
                             } else {
                                 print("Loading sequence completed")
+                                try await Task.sleep(for: .seconds(configuration.dismissDuration))
+                                window.isHidden = true
+                                window.isUserInteractionEnabled = false
                             }
                         } catch {
                             print("An error occurred in loading sequence: \(error)")

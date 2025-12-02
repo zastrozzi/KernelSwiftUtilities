@@ -12,6 +12,7 @@ extension DynamicLaunchScene {
     public struct Configuration {
         public var launchScreenType: LaunchScreenType
         public var initialDelay: Double
+        public var dismissDuration: Double
         public var backgroundColor: Color
         public var contentBackgroundColor: Color
         public var scaling: CGFloat
@@ -23,6 +24,7 @@ extension DynamicLaunchScene {
         public init(
             launchScreenType: LaunchScreenType = .scaling,
             initialDelay: Double = 0.35,
+            dismissDuration: Double = 0.35,
             backgroundColor: Color = .black,
             contentBackgroundColor: Color = .white,
             scaling: CGFloat = 4,
@@ -33,6 +35,7 @@ extension DynamicLaunchScene {
         ) {
             self.launchScreenType = launchScreenType
             self.initialDelay = initialDelay
+            self.dismissDuration = dismissDuration
             self.backgroundColor = backgroundColor
             self.contentBackgroundColor = contentBackgroundColor
             self.scaling = scaling

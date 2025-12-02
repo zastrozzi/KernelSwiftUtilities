@@ -14,19 +14,18 @@ public struct BouncingLoopAnimationViewModifier: ViewModifier {
     
     // MARK: - State
     @State private var yOffset: CGFloat = 0
-    @Binding private var isBouncing: Bool
-    @State private var bounceTask: Task<Void, Never>? = nil
+    @State private var bounceTask: Task<Void, Error>? = nil
+    private var isBouncing: Bool
     
     // MARK: - Init
-    public init(parameters: BounceParameters, isBouncing: Binding<Bool>) {
+    public init(parameters: BounceParameters, isBouncing: Bool) {
         self.parameters = parameters
-        self._isBouncing = isBouncing
+        self.isBouncing = isBouncing
     }
     
     // MARK: - Body
     public func body(content: Content) -> some View {
         content
-        //            .drawingGroup()
             .offset(y: yOffset)
             .onChange(of: isBouncing, { oldValue, newValue in
                 if newValue {
@@ -44,7 +43,7 @@ public struct BouncingLoopAnimationViewModifier: ViewModifier {
     // MARK: - Control
     private func startLoopIfNeeded() {
         guard bounceTask == nil else { return }
-        let task = Task { await animateBounceLoop(parameters: parameters) }
+        let task = Task { try await animateBounceLoop(parameters: parameters) }
         bounceTask = task
     }
     
@@ -60,49 +59,47 @@ public struct BouncingLoopAnimationViewModifier: ViewModifier {
     }
     
     // MARK: - Animation Loop
-    @MainActor
     private func apply(offset: CGFloat, animation: Animation) {
         withAnimation(animation) {
             yOffset = offset
         }
     }
     
-    private func animateBounceLoop(parameters: BounceParameters) async {
-        await withTaskCancellationHandler(operation: {
+    private func animateBounceLoop(parameters: BounceParameters) async throws {
+        try await withTaskCancellationHandler(operation: {
             // Repeat until cancelled
             while !Task.isCancelled {
-                let keyframes = parameters.keyframes()
-                for keyframe in keyframes {
+                for keyframe in parameters.bounceKeyframes {
                     if Task.isCancelled { break }
-                    
-                    // Apply animation on the main actor
-                    await MainActor.run {
-                        apply(offset: keyframe.offset, animation: keyframe.animation)
-                    }
-                    
+                    apply(offset: keyframe.offset, animation: keyframe.animation)
+//                    // Apply animation on the main actor
+//                    await MainActor.run {
+//                        
+//                    }
+                    try await Task.sleep(nanoseconds: UInt64(keyframe.duration * 1_000_000_000))
                     // Sleep for the keyframe duration, but remain cancellation-cooperative
-                    do {
-                        try await Task.sleep(nanoseconds: UInt64(keyframe.duration * 1_000_000_000))
-                    } catch {
-                        // Cancellation or sleep error -> break out to cleanup
-                        break
-                    }
+//                    do {
+//                        
+//                    } catch {
+//                        // Cancellation or sleep error -> break out to cleanup
+//                        break
+//                    }
                 }
             }
         }, onCancel: {
             // Snap to rest on cancellation using the last keyframe's animation if available
-            Task { @MainActor in
-                let frames = parameters.keyframes()
-                if let last = frames.last {
-                    apply(offset: last.offset, animation: last.animation)
+            Task {
+                if let last = parameters.bounceKeyframes.last {
+                    await apply(offset: last.offset, animation: last.animation)
                 }
             }
         })
         
         // Ensure UI state reflects that we stopped
-        await MainActor.run {
-            bounceTask = nil
-        }
+//        await MainActor.run {
+//            bounceTask = nil
+//        }
+        bounceTask = nil
     }
 }
 
@@ -131,6 +128,8 @@ extension BouncingLoopAnimationViewModifier {
         /// Suggested: 1 ... 5. More bounces = longer animation.
         public var totalBounces: Int
         
+        public var bounceKeyframes: [BounceKeyframe] = []
+        
         /// Create bounce parameters.
         ///
         /// - Parameters:
@@ -157,12 +156,13 @@ extension BouncingLoopAnimationViewModifier {
             self.decay = min(0.99, max(0.05, decay))
             self.finalPause = max(0.0, finalPause)
             self.totalBounces = max(0, totalBounces)
+            self.bounceKeyframes = keyframes()
         }
     }
 }
 
 extension BouncingLoopAnimationViewModifier.BounceParameters {
-    public struct BounceKeyframe {
+    public struct BounceKeyframe: Equatable, Sendable {
         public var offset: CGFloat
         public var animation: Animation
         public var duration: Double
@@ -240,8 +240,16 @@ extension BouncingLoopAnimationViewModifier.BounceParameters {
 
 // MARK: - View convenience
 extension View {
-    public func bouncingLoopAnimation(parameters: BouncingLoopAnimationViewModifier.BounceParameters, isBouncing: Binding<Bool>) -> some View {
-        modifier(BouncingLoopAnimationViewModifier(parameters: parameters, isBouncing: isBouncing))
+    public func bouncingLoopAnimation(
+        parameters: BouncingLoopAnimationViewModifier.BounceParameters,
+        isBouncing: Bool
+    ) -> some View {
+        modifier(
+            BouncingLoopAnimationViewModifier(
+                parameters: parameters,
+                isBouncing: isBouncing
+            )
+        )
     }
 }
 

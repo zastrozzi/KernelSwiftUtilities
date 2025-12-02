@@ -10,14 +10,16 @@ import SwiftUI
 
 extension DynamicLaunchScene {
     public struct ProgressBouncingLaunchScreenView: View {
-        @State private var isBouncing: Bool = false
         @Binding private var launchProgress: LaunchProgress
         @State private var opacity: Double = 1.0
         
         public var configuration: Configuration
         private var launchContent: () -> LaunchContent
         private var bouncingParameters: BouncingLoopAnimationViewModifier.BounceParameters
-        public var isCompleted: () -> ()
+        
+        var isBouncing: Bool {
+            launchProgress != .all && launchProgress != .empty
+        }
         
         public init(
             launchProgress: Binding<LaunchProgress>,
@@ -31,14 +33,12 @@ extension DynamicLaunchScene {
                 finalPause: 1.00,
                 totalBounces: 2
             ),
-            @ViewBuilder launchContent: @escaping () -> LaunchContent,
-            isCompleted: @escaping () -> ()
+            @ViewBuilder launchContent: @escaping () -> LaunchContent
         ) {
             self._launchProgress = launchProgress
             self.configuration = configuration
             self.bouncingParameters = bouncingParameters
             self.launchContent = launchContent
-            self.isCompleted = isCompleted
         }
         
         public var body: some View {
@@ -46,7 +46,7 @@ extension DynamicLaunchScene {
                 launchContent()
                     .bouncingLoopAnimation(
                         parameters: bouncingParameters,
-                        isBouncing: $isBouncing
+                        isBouncing: launchProgress != .empty
                     )
                 VStack(spacing: 10) {
                     Spacer()
@@ -65,29 +65,16 @@ extension DynamicLaunchScene {
             .background(configuration.backgroundColor)
             .ignoresSafeArea()
             .onChange(of: launchProgress) { oldValue, newValue in
-                if oldValue != newValue {
-                    if newValue == .all || newValue == .empty {
-                        isBouncing = false
-                        if newValue == .all {
-                            dismissView()
-                        }
-                    } else {
-                        isBouncing = true
-                    }
+                if newValue == .all {
+                    dismissView()
                 }
             }
             .opacity(opacity)
         }
         
         public func dismissView() {
-            Task {
-                try? await Task.sleep(for: .seconds(0.5))
-                withAnimation(configuration.animation, completionCriteria: .logicallyComplete) {
-                    opacity = 0
-                } completion: {
-                    isCompleted()
-                }
-                
+            withAnimation(.smooth(duration: configuration.dismissDuration)) {
+                opacity = 0
             }
         }
     }
