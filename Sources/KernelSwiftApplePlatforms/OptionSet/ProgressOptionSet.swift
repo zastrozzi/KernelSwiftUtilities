@@ -18,6 +18,8 @@ public protocol ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where Arr
     static func label(for stage: Stage) -> String
     /// Default initializer
     init()
+    /// Default label
+    static var defaultLabel: String { get }
 }
 
 // MARK: OptionSet API
