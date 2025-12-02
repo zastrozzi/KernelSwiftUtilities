@@ -14,7 +14,7 @@ extension DynamicLaunchScene {
         @State var launchProgress: LaunchProgress = .empty
         var configuration: Configuration
         var launchContent: () -> LaunchContent
-        let loadingSequence: (_ progress: LaunchProgress) async throws -> Void
+        let loadingSequence: (_ progress: Binding<LaunchProgress>) async throws -> Void
         
         @Environment(\.scenePhase) private var scenePhase
         @State private var launchWindow: UIWindow?
@@ -22,7 +22,7 @@ extension DynamicLaunchScene {
         public init(
             configuration: Configuration,
             @ViewBuilder launchContent: @escaping () -> LaunchContent,
-            loadingSequence: @escaping (_ progress: LaunchProgress) async throws -> Void
+            loadingSequence: @escaping (_ progress: Binding<LaunchProgress>) async throws -> Void
         ) {
             self.configuration = configuration
             self.launchContent = launchContent
@@ -90,7 +90,7 @@ extension DynamicLaunchScene {
                         print("Launch window added to the scene")
                         do {
                             print("Loading sequence started")
-                            try await loadingSequence(launchProgress)
+                            try await loadingSequence($launchProgress)
                             if launchProgress != .all {
                                 print("Loading sequence finished before completion")
                             } else {

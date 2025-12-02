@@ -12,13 +12,14 @@ public struct DynamicLaunchScene<LaunchProgress: ProgressOptionSet, RootContent:
     var configuration: Configuration
     let launchContent: () -> LaunchContent
     let rootContent: () -> RootContent
-    let loadingSequence: (_ progress: LaunchProgress) async throws -> Void
+    let loadingSequence: (_ progress: Binding<LaunchProgress>) async throws -> Void
     
     public init(
+        progressType: LaunchProgress.Type = LaunchProgress.self,
         configuration: Configuration,
         @ViewBuilder launchContent: @escaping () -> LaunchContent,
         @ViewBuilder rootContent: @escaping () -> RootContent,
-        loadingSequence: @escaping (_ progress: LaunchProgress) async throws -> Void
+        loadingSequence: @escaping (_ progress: Binding<LaunchProgress>) async throws -> Void
     ) {
         self.configuration = configuration
         self.launchContent = launchContent
