@@ -11,6 +11,7 @@ import SwiftUI
 extension DynamicLaunchScene {
 #if os(iOS)
     public struct IOSSceneModifier: ViewModifier {
+        @Binding var launchProgress: LaunchProgress
         var configuration: Configuration
         var launchContent: () -> LaunchContent
         
@@ -18,9 +19,11 @@ extension DynamicLaunchScene {
         @State private var launchWindow: UIWindow?
         
         public init(
+            launchProgress: Binding<LaunchProgress>,
             configuration: Configuration,
             @ViewBuilder launchContent: @escaping () -> LaunchContent
         ) {
+            self._launchProgress = launchProgress
             self.configuration = configuration
             self.launchContent = launchContent
         }
@@ -46,23 +49,41 @@ extension DynamicLaunchScene {
                         window.isHidden = false
                         window.isUserInteractionEnabled = true
                         
-                        guard configuration.launchScreenType == .scaling else {
+                        switch configuration.launchScreenType {
+                        case .scaling:
+                            let rootViewController = UIHostingController(
+                                rootView: ScalingLaunchScreenView(
+                                    configuration: configuration,
+                                    launchContent: launchContent
+                                ) {
+                                    window.isHidden = true
+                                    window.isUserInteractionEnabled = false
+                                }
+                            )
+                            
+                            rootViewController.view.backgroundColor = .clear
+                            window.rootViewController = rootViewController
+                        case .progressBouncing:
+                            let rootViewController = UIHostingController(
+                                rootView: ProgressBouncingLaunchScreenView(
+                                    launchProgress: $launchProgress,
+                                    configuration: configuration,
+                                    launchContent: launchContent
+                                ) {
+                                    window.isHidden = true
+                                    window.isUserInteractionEnabled = false
+                                }
+                            )
+                            
+                            rootViewController.view.backgroundColor = .clear
+                            window.rootViewController = rootViewController
+                        default:
                             print("Custom launch screen is not supported on iOS yet")
                             continue
                         }
                         
-                        let rootViewController = UIHostingController(
-                            rootView: ScalingLaunchScreenView(
-                                configuration: configuration,
-                                launchContent: launchContent
-                            ) {
-                                window.isHidden = true
-                                window.isUserInteractionEnabled = false
-                            }
-                        )
                         
-                        rootViewController.view.backgroundColor = .clear
-                        window.rootViewController = rootViewController
+                        
                         self.launchWindow = window
                         print("Launch window added to the scene")
                     }
