@@ -10,6 +10,7 @@ import SwiftUI
 
 extension DynamicLaunchScene {
     public struct ProgressBouncingLaunchScreenView: View {
+        @State private var isBouncing: Bool = false
         @Binding private var launchProgress: LaunchProgress
         @State private var opacity: Double = 1.0
         
@@ -17,9 +18,7 @@ extension DynamicLaunchScene {
         private var launchContent: () -> LaunchContent
         private var bouncingParameters: BouncingLoopAnimationViewModifier.BounceParameters
         
-        var isBouncing: Bool {
-            launchProgress != .all && launchProgress != .empty
-        }
+        
         
         public init(
             launchProgress: Binding<LaunchProgress>,
@@ -46,7 +45,7 @@ extension DynamicLaunchScene {
                 launchContent()
                     .bouncingLoopAnimation(
                         parameters: bouncingParameters,
-                        isBouncing: launchProgress != .empty
+                        isBouncing: $isBouncing
                     )
                 VStack(spacing: 10) {
                     Spacer()
@@ -65,8 +64,15 @@ extension DynamicLaunchScene {
             .background(configuration.backgroundColor)
             .ignoresSafeArea()
             .onChange(of: launchProgress) { oldValue, newValue in
-                if newValue == .all {
-                    dismissView()
+                if oldValue != newValue {
+                    if newValue == .all || newValue == .empty {
+                        isBouncing = false
+                        if newValue == .all {
+                            dismissView()
+                        }
+                    } else {
+                        isBouncing = true
+                    }
                 }
             }
             .opacity(opacity)

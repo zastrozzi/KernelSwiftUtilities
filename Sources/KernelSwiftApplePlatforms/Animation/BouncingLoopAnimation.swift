@@ -15,12 +15,12 @@ public struct BouncingLoopAnimationViewModifier: ViewModifier {
     // MARK: - State
     @State private var yOffset: CGFloat = 0
     @State private var bounceTask: Task<Void, Error>? = nil
-    private var isBouncing: Bool
+    @Binding private var isBouncing: Bool
     
     // MARK: - Init
-    public init(parameters: BounceParameters, isBouncing: Bool) {
+    public init(parameters: BounceParameters, isBouncing: Binding<Bool>) {
         self.parameters = parameters
-        self.isBouncing = isBouncing
+        self._isBouncing = isBouncing
     }
     
     // MARK: - Body
@@ -242,7 +242,7 @@ extension BouncingLoopAnimationViewModifier.BounceParameters {
 extension View {
     public func bouncingLoopAnimation(
         parameters: BouncingLoopAnimationViewModifier.BounceParameters,
-        isBouncing: Bool
+        isBouncing: Binding<Bool>
     ) -> some View {
         modifier(
             BouncingLoopAnimationViewModifier(
