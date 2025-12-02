@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public protocol ProgressOptionSet: ExpressibleByArrayLiteral, Hashable where ArrayLiteralElement == Stage {
+public protocol ProgressOptionSet: ExpressibleByArrayLiteral, Hashable, Sendable where ArrayLiteralElement == Stage {
     associatedtype Stage: CaseIterable & RawRepresentable & Hashable & Sendable where Stage.RawValue == UInt
     /// Storage for completed stages
     var completed: Set<Stage> { get set }

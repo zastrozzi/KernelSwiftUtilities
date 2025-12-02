@@ -11,26 +11,28 @@ import SwiftUI
 extension DynamicLaunchScene {
 #if os(iOS)
     public struct IOSSceneModifier: ViewModifier {
-        @Binding var launchProgress: LaunchProgress
+        @State var launchProgress: LaunchProgress = .empty
         var configuration: Configuration
         var launchContent: () -> LaunchContent
+        let loadingSequence: (_ progress: LaunchProgress) async throws -> Void
         
         @Environment(\.scenePhase) private var scenePhase
         @State private var launchWindow: UIWindow?
         
         public init(
-            launchProgress: Binding<LaunchProgress>,
             configuration: Configuration,
-            @ViewBuilder launchContent: @escaping () -> LaunchContent
+            @ViewBuilder launchContent: @escaping () -> LaunchContent,
+            loadingSequence: @escaping (_ progress: LaunchProgress) async throws -> Void
         ) {
-            self._launchProgress = launchProgress
             self.configuration = configuration
             self.launchContent = launchContent
+            self.loadingSequence = loadingSequence
         }
         
         public func body(content: Content) -> some View {
             content
-                .onAppear {
+                .task {
+                    print("Adding Launch window to scene")
                     let scenes = UIApplication.shared.connectedScenes
                     
                     for scene in scenes {
@@ -86,6 +88,17 @@ extension DynamicLaunchScene {
                         
                         self.launchWindow = window
                         print("Launch window added to the scene")
+                        do {
+                            print("Loading sequence started")
+                            try await loadingSequence(launchProgress)
+                            if launchProgress != .all {
+                                print("Loading sequence finished before completion")
+                            } else {
+                                print("Loading sequence completed")
+                            }
+                        } catch {
+                            print("An error occurred in loading sequence: \(error)")
+                        }
                     }
                 }
         }

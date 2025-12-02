@@ -9,21 +9,21 @@ import Foundation
 import SwiftUI
 
 public struct DynamicLaunchScene<LaunchProgress: ProgressOptionSet, RootContent: View, LaunchContent: View>: Scene {
-    @Binding private var launchProgress: LaunchProgress
     var configuration: Configuration
     let launchContent: () -> LaunchContent
     let rootContent: () -> RootContent
+    let loadingSequence: (_ progress: LaunchProgress) async throws -> Void
     
     public init(
-        launchProgress: Binding<LaunchProgress>,
         configuration: Configuration,
         @ViewBuilder launchContent: @escaping () -> LaunchContent,
-        @ViewBuilder rootContent: @escaping () -> RootContent
+        @ViewBuilder rootContent: @escaping () -> RootContent,
+        loadingSequence: @escaping (_ progress: LaunchProgress) async throws -> Void
     ) {
-        self._launchProgress = launchProgress
         self.configuration = configuration
         self.launchContent = launchContent
         self.rootContent = rootContent
+        self.loadingSequence = loadingSequence
     }
     
     public var body: some Scene {
@@ -39,9 +39,9 @@ public struct DynamicLaunchScene<LaunchProgress: ProgressOptionSet, RootContent:
             #if os(iOS)
                 .modifier(
                     IOSSceneModifier(
-                        launchProgress: $launchProgress,
                         configuration: configuration,
-                        launchContent: launchContent
+                        launchContent: launchContent,
+                        loadingSequence: loadingSequence
                     )
                 )
             #endif
