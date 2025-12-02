@@ -117,12 +117,12 @@ extension ProgressOptionSet {
     
     /// A display label representing the latest stage in this set.
     public var currentLabel: String {
-        guard let s = latestStage else { return "" }
+        guard let s = latestStage else { return Self.defaultLabel }
         return Self.label(for: s)
     }
     
     public var mostRecentLabel: String {
-        guard let s = mostRecentStage else { return "" }
+        guard let s = mostRecentStage else { return Self.defaultLabel }
         return Self.label(for: s)
     }
     
