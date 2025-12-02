@@ -12,6 +12,8 @@ extension DynamicLaunchScene {
     public struct ProgressBouncingLaunchScreenView: View {
         @State private var isBouncing: Bool = false
         @Binding private var launchProgress: LaunchProgress
+        @State private var opacity: Double = 1.0
+        
         public var configuration: Configuration
         private var launchContent: () -> LaunchContent
         private var bouncingParameters: BouncingLoopAnimationViewModifier.BounceParameters
@@ -60,14 +62,31 @@ extension DynamicLaunchScene {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(configuration.backgroundColor)
+            .ignoresSafeArea()
             .onChange(of: launchProgress) { oldValue, newValue in
                 if oldValue != newValue {
                     if newValue == .all || newValue == .empty {
                         isBouncing = false
+                        if newValue == .all {
+                            dismissView()
+                        }
                     } else {
                         isBouncing = true
                     }
                 }
+            }
+            .opacity(opacity)
+        }
+        
+        public func dismissView() {
+            Task {
+                try? await Task.sleep(for: .seconds(0.5))
+                withAnimation(configuration.animation, completionCriteria: .logicallyComplete) {
+                    opacity = 0
+                } completion: {
+                    isCompleted()
+                }
+                
             }
         }
     }
