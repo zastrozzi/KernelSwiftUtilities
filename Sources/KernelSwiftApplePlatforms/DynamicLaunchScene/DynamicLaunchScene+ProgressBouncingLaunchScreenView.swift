@@ -48,7 +48,6 @@ extension DynamicLaunchScene {
                         parameters: bouncingParameters,
                         isBouncing: $isBouncing
                     )
-                    .ignoresSafeArea()
                 VStack(spacing: 10) {
                     Spacer()
                     ProgressView(value: launchProgress.currentProgress, total: 1.0)
@@ -60,10 +59,11 @@ extension DynamicLaunchScene {
                         .foregroundStyle(.white.secondary)
                 }
                 .padding()
+                .padding(.bottom, 50)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(configuration.backgroundColor)
-            
+            .ignoresSafeArea()
             .onChange(of: launchProgress) { oldValue, newValue in
                 if oldValue != newValue {
                     if newValue == .all || newValue == .empty {
