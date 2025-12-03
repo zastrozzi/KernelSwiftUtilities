@@ -65,11 +65,9 @@ extension DynamicLaunchScene {
             .ignoresSafeArea()
             .onChange(of: launchProgress) { oldValue, newValue in
                 if oldValue != newValue {
-                    if newValue == .all || newValue == .empty {
+                    if newValue == .all {
                         isBouncing = false
-                        if newValue == .all {
-                            dismissView()
-                        }
+                        dismissView()
                     } else {
                         isBouncing = true
                     }
