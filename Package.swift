@@ -56,7 +56,7 @@ let package = Package(
         .package(url: "https://github.com/JohnSundell/Plot.git", from: "0.14.0"),
         .package(url: "https://github.com/vapor-community/google-cloud-kit.git", from: "1.0.0-rc.12"),
         .package(url: "https://github.com/vapor-community/wkhtmltopdf.git", from: "4.0.0"),
-        .package(url: "https://github.com/marmelroy/PhoneNumberKit", .upToNextMajor(from: "3.4.5")),
+        .package(url: "https://github.com/marmelroy/PhoneNumberKit", .upToNextMajor(from: "3.4.5"))
 //        .package(url: "https://github.com/zxingify/zxingify-objc.git", revision: "510db5f6ed293bf2f9e1905d3b8268c502f3fb55")
     ],
     targets: [

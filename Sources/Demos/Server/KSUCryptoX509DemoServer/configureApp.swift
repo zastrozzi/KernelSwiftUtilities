@@ -40,7 +40,7 @@ enum Entrypoint {
         #else
         try LoggingSystem.bootstrap(from: &env)
         #endif
-        let app = Application.initDI(env)
+        let app = try await Application.initDI(&env)
         do {
             try await configureApp(app)
         } catch {
@@ -112,16 +112,18 @@ public func configureApp(_ app: Application, _ portOverride: Int? = nil) async t
         as: .psql
     )
     
-    KernelServerPlatform.initialise()
-    try await KernelNetworking.initialise()
-    try await KernelTaskScheduler.initialise()
+    KernelServerPlatform.initialise(for: app)
+    try await KernelNetworking.initialise(for: app)
+    try await KernelTaskScheduler.initialise(for: app)
     try await KernelX509.initialise(
+        for: app,
         withConfiguration: [
             (.defaultDatabaseID, DatabaseID.psql)
         ]
     )
     
     try await KernelCryptography.initialise(
+        for: app,
         withConfiguration: [
             (.defaultDatabaseID, DatabaseID.psql)
         ]
@@ -134,7 +136,8 @@ public func configureApp(_ app: Application, _ portOverride: Int? = nil) async t
     try app.register(
         collection: DocumentationController(
             title: "KSU Crypto X509 Demo",
-            contentColor: .init(fromHex: "#45586e")
+            contentColor: .init(fromHex: "#45586e"),
+            collections: []
         )
     )
     

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 import KernelSwiftCommon
 
-@available(iOS 26.0, macOS 26.0, *)
 extension StrokedBorderProgressViewStyle {
     @Animatable
     public struct AnimatableInnerView: View {
