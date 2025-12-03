@@ -55,12 +55,10 @@ extension DynamicLaunchScene {
                         case .scaling:
                             let rootViewController = UIHostingController(
                                 rootView: ScalingLaunchScreenView(
+                                    launchProgress: $launchProgress,
                                     configuration: configuration,
                                     launchContent: launchContent
-                                ) {
-                                    window.isHidden = true
-                                    window.isUserInteractionEnabled = false
-                                }
+                                )
                             )
                             
                             rootViewController.view.backgroundColor = .clear
@@ -75,7 +73,7 @@ extension DynamicLaunchScene {
                             )
                             rootViewController.view.backgroundColor = .clear
                             window.rootViewController = rootViewController
-                        default:
+                        @unknown default:
                             print("Custom launch screen is not supported on iOS yet")
                             continue
                         }

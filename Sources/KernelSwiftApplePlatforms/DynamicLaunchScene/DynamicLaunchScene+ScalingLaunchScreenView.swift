@@ -10,21 +10,22 @@ import SwiftUI
 
 extension DynamicLaunchScene {
     public struct ScalingLaunchScreenView: View {
-        public var configuration: Configuration
-        public var launchContent: () -> LaunchContent
-        public var isCompleted: () -> ()
-        
         @State private var scaleDown: Bool = false
         @State private var scaleUp: Bool = false
+        @State private var opacity: Double = 1.0
+        @Binding private var launchProgress: LaunchProgress
+        
+        public var configuration: Configuration
+        public var launchContent: () -> LaunchContent
         
         public init(
+            launchProgress: Binding<LaunchProgress>,
             configuration: Configuration,
-            @ViewBuilder launchContent: @escaping () -> LaunchContent,
-            isCompleted: @escaping () -> ()
+            @ViewBuilder launchContent: @escaping () -> LaunchContent
         ) {
+            self._launchProgress = launchProgress
             self.configuration = configuration
             self.launchContent = launchContent
-            self.isCompleted = isCompleted
         }
         
         public var body: some View {
@@ -60,18 +61,30 @@ extension DynamicLaunchScene {
                         .opacity(scaleUp ? 0 : 1)
                 }
                 .ignoresSafeArea()
-                .task {
-                    guard !scaleDown else { return }
-                    try? await Task.sleep(for: .seconds(configuration.initialDelay))
-                    scaleDown = true
-                    try? await Task.sleep(for: .seconds(0.1))
-                    withAnimation(configuration.animation, completionCriteria: .logicallyComplete) {
-                        scaleUp = true
-                    } completion: {
-                        isCompleted()
+                .onChange(of: launchProgress) { oldValue, newValue in
+                    if oldValue != newValue {
+                        if newValue == .all {
+                            dismissView()
+                        }
                     }
-                    
                 }
+                .opacity(opacity)
+        }
+        
+        public func dismissView() {
+            Task {
+                guard !scaleDown else { return }
+                try? await Task.sleep(for: .seconds(configuration.initialDelay))
+                scaleDown = true
+                try? await Task.sleep(for: .seconds(0.1))
+                withAnimation(configuration.animation) {
+                    scaleUp = true
+                }
+                withAnimation(.smooth(duration: configuration.dismissDuration)) {
+                    opacity = 0
+                }
+            }
+            
         }
     }
 }

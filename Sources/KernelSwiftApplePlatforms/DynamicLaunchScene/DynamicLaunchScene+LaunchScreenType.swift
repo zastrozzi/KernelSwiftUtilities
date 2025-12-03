@@ -11,8 +11,6 @@ import SwiftUI
 extension DynamicLaunchScene {
     public enum LaunchScreenType {
         case scaling
-//        case progressBounce
         case progressBouncing
-        case custom
     }
 }

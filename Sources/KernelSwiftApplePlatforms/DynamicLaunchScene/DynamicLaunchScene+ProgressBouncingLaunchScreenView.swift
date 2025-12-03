@@ -11,14 +11,12 @@ import SwiftUI
 extension DynamicLaunchScene {
     public struct ProgressBouncingLaunchScreenView: View {
         @State private var isBouncing: Bool = false
-        @Binding private var launchProgress: LaunchProgress
         @State private var opacity: Double = 1.0
+        @Binding private var launchProgress: LaunchProgress
         
         public var configuration: Configuration
         private var launchContent: () -> LaunchContent
         private var bouncingParameters: BouncingLoopAnimationViewModifier.BounceParameters
-        
-        
         
         public init(
             launchProgress: Binding<LaunchProgress>,
