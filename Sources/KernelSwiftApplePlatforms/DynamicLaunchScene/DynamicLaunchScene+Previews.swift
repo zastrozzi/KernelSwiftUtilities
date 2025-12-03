@@ -161,7 +161,7 @@ struct BouncingLaunchView<Content: View, Progress: ProgressOptionSet>: View {
 @available(iOS 26.0, macOS 26.0, *)
     #Preview {
         @Previewable @State var progress: LoadingProgress = .empty
-        var buttonNamespace: Namespace.ID = Namespace().wrappedValue
+        let buttonNamespace: Namespace.ID = Namespace().wrappedValue
         
         BouncingLaunchView(
             progress: $progress
